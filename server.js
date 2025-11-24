@@ -39,27 +39,6 @@ let beneficiaries = [
   }
 ];
 
-let providers = [
-  {
-    id: 1,
-    name: "Tech Solutions Inc",
-    contactPerson: "Mike Johnson",
-    email: "mike@techsolutions.com",
-    phone: "555-0123",
-    services: ["Electrician", "Plumbing"],
-    location: "Downtown"
-  },
-  {
-    id: 2,
-    name: "Home Services Co",
-    contactPerson: "Sarah Wilson",
-    email: "sarah@homeservices.com",
-    phone: "555-0456",
-    services: ["Cook", "Maid", "Security Guard"],
-    location: "Uptown"
-  }
-];
-
 // Routes
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -77,42 +56,6 @@ app.post('/api/beneficiaries', (req, res) => {
   };
   beneficiaries.push(newBeneficiary);
   res.status(201).json(newBeneficiary);
-});
-
-app.get('/api/providers', (req, res) => {
-  res.json(providers);
-});
-
-app.post('/api/providers', (req, res) => {
-  const newProvider = {
-    id: providers.length + 1,
-    ...req.body
-  };
-  providers.push(newProvider);
-  res.status(201).json(newProvider);
-});
-
-// Skill matching endpoint
-app.get('/api/skill-matching', (req, res) => {
-  const matches = [];
-  
-  beneficiaries.forEach(beneficiary => {
-    beneficiary.skills.forEach(skill => {
-      const matchingProviders = providers.filter(provider => 
-        provider.services.includes(skill)
-      );
-      
-      if (matchingProviders.length > 0) {
-        matches.push({
-          beneficiary: beneficiary.fullName,
-          skill: skill,
-          providers: matchingProviders.map(p => p.name)
-        });
-      }
-    });
-  });
-  
-  res.json(matches);
 });
 
 app.listen(PORT, () => {

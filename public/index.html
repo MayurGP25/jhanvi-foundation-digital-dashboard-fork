@@ -32,32 +32,43 @@
         <!-- Main Content -->
         <main class="container mx-auto px-4 py-8">
             <div class="tabs w-full">
-                <div class="tab-list grid w-full grid-cols-4 mb-8">
-                    <button class="tab-trigger flex items-center gap-2 active" data-tab="add">
-                        <i data-lucide="users" class="w-4 h-4"></i>
-                        Add Beneficiary
-                    </button>
-                    <button class="tab-trigger flex items-center gap-2" data-tab="list">
-                        <i data-lucide="users" class="w-4 h-4"></i>
-                        Beneficiaries
-                    </button>
-                    <button class="tab-trigger flex items-center gap-2" data-tab="providers">
-                        <i data-lucide="building-2" class="w-4 h-4"></i>
-                        Providers
-                    </button>
-                    <button class="tab-trigger flex items-center gap-2" data-tab="matching">
-                        <i data-lucide="trending-up" class="w-4 h-4"></i>
-                        Skill Matching
-                    </button>
-                </div>
                 <!-- Tab Content -->
                 <div class="tab-content">
-                    <!-- Add Beneficiary Tab -->
-                    <div class="tab-pane space-y-4 active" id="add">
+                    <!-- Beneficiaries List Tab -->
+                    <div class="tab-pane space-y-4 active" id="list">
                         <div class="card">
                             <div class="card-header">
-                                <h2 class="card-title">Add New Beneficiary</h2>
-                                <p class="card-description">Enter beneficiary details to add them to the system</p>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h2 class="card-title">Beneficiaries List</h2>
+                                        <p class="card-description">Manage all registered beneficiaries</p>
+                                    </div>
+                                    <button id="addNewBeneficiaryBtn" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90">
+                                        <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
+                                        Add New Beneficiary
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div id="beneficiariesTable"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Beneficiary Tab -->
+                    <div class="tab-pane space-y-4" id="add">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h2 class="card-title">Add New Beneficiary</h2>
+                                        <p class="card-description">Enter beneficiary details to add them to the system</p>
+                                    </div>
+                                    <button id="backToBeneficiariesBtn" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90">
+                                        <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i>
+                                        Back to List
+                                    </button>
+                                </div>
                             </div>
                             <div class="card-content">
                                 <form id="beneficiaryForm" class="space-y-4">
@@ -138,110 +149,6 @@
                                         Add Beneficiary
                                     </button>
                                 </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Beneficiaries List Tab -->
-                    <div class="tab-pane space-y-4" id="list">
-                        <div class="card">
-                            <div class="card-header">
-                                <h2 class="card-title">Beneficiaries List</h2>
-                                <p class="card-description">Manage all registered beneficiaries</p>
-                            </div>
-                            <div class="card-content">
-                                <div id="beneficiariesTable"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Providers Tab -->
-                    <div class="tab-pane space-y-4" id="providers">
-                        <div class="card">
-                            <div class="card-header">
-                                <h2 class="card-title">Service Providers</h2>
-                                <p class="card-description">Manage service providers and their offerings</p>
-                            </div>
-                            <div class="card-content">
-                                <form id="providerForm" class="space-y-4 mb-8">
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div class="space-y-2">
-                                            <label class="text-sm font-medium" for="providerName">Provider Name *</label>
-                                            <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" type="text" id="providerName" name="name" placeholder="Company Name" required>
-                                        </div>
-                                        <div class="space-y-2">
-                                            <label class="text-sm font-medium" for="contactPerson">Contact Person *</label>
-                                            <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" type="text" id="contactPerson" name="contactPerson" placeholder="Contact Person" required>
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div class="space-y-2">
-                                            <label class="text-sm font-medium" for="providerEmail">Email</label>
-                                            <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" type="email" id="providerEmail" name="email" placeholder="contact@company.com">
-                                        </div>
-                                        <div class="space-y-2">
-                                            <label class="text-sm font-medium" for="providerPhone">Phone</label>
-                                            <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" type="tel" id="providerPhone" name="phone" placeholder="Phone number">
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div class="space-y-2">
-                                            <label class="text-sm font-medium" for="providerLocation">Location</label>
-                                            <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" type="text" id="providerLocation" name="location" placeholder="Location">
-                                        </div>
-                                        <div class="space-y-2">
-                                            <label class="text-sm font-medium">Services Offered</label>
-                                            <div class="grid grid-cols-2 gap-4">
-                                                <div class="flex items-center space-x-2">
-                                                    <input type="checkbox" id="service-plumbing" name="services" value="Plumbing" class="peer h-4 w-4 shrink-0 rounded-sm border border-primary">
-                                                    <label for="service-plumbing" class="text-sm font-medium leading-none">Plumbing</label>
-                                                </div>
-                                                <div class="flex items-center space-x-2">
-                                                    <input type="checkbox" id="service-carpenter" name="services" value="Carpenter" class="peer h-4 w-4 shrink-0 rounded-sm border border-primary">
-                                                    <label for="service-carpenter" class="text-sm font-medium leading-none">Carpenter</label>
-                                                </div>
-                                                <div class="flex items-center space-x-2">
-                                                    <input type="checkbox" id="service-electrician" name="services" value="Electrician" class="peer h-4 w-4 shrink-0 rounded-sm border border-primary">
-                                                    <label for="service-electrician" class="text-sm font-medium leading-none">Electrician</label>
-                                                </div>
-                                                <div class="flex items-center space-x-2">
-                                                    <input type="checkbox" id="service-security" name="services" value="Security Guard" class="peer h-4 w-4 shrink-0 rounded-sm border border-primary">
-                                                    <label for="service-security" class="text-sm font-medium leading-none">Security Guard</label>
-                                                </div>
-                                                <div class="flex items-center space-x-2">
-                                                    <input type="checkbox" id="service-maid" name="services" value="Maid" class="peer h-4 w-4 shrink-0 rounded-sm border border-primary">
-                                                    <label for="service-maid" class="text-sm font-medium leading-none">Maid</label>
-                                                </div>
-                                                <div class="flex items-center space-x-2">
-                                                    <input type="checkbox" id="service-cook" name="services" value="Cook" class="peer h-4 w-4 shrink-0 rounded-sm border border-primary">
-                                                    <label for="service-cook" class="text-sm font-medium leading-none">Cook</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 w-full">
-                                        <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
-                                        Add Provider
-                                    </button>
-                                </form>
-                                <div id="providersTable"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Skill Matching Tab -->
-                    <div class="tab-pane space-y-4" id="matching">
-                        <div class="card">
-                            <div class="card-header">
-                                <h2 class="card-title">Skill Matching</h2>
-                                <p class="card-description">Match beneficiaries with suitable service providers</p>
-                            </div>
-                            <div class="card-content">
-                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 mb-6" onclick="generateMatches()">
-                                    <i data-lucide="refresh-cw" class="w-4 h-4 mr-2"></i>
-                                    Generate Matches
-                                </button>
-                                <div id="matchingResults"></div>
                             </div>
                         </div>
                     </div>

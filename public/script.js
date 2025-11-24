@@ -1,42 +1,49 @@
 // Global variables
 let beneficiaries = [];
-let providers = [];
-let matches = [];
+let hasUnsavedChanges = false;
 
 // DOM Elements
 const tabTriggers = document.querySelectorAll('.tab-trigger');
 const tabPanes = document.querySelectorAll('.tab-pane');
 const beneficiaryForm = document.getElementById('beneficiaryForm');
-const providerForm = document.getElementById('providerForm');
+const addNewBeneficiaryBtn = document.getElementById('addNewBeneficiaryBtn');
+const backToBeneficiariesBtn = document.getElementById('backToBeneficiariesBtn');
 const loadingOverlay = document.getElementById('loadingOverlay');
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
-    initializeTabs();
+    setupNavigationButtons();
     loadBeneficiaries();
-    loadProviders();
     setupForms();
+    // Show beneficiaries by default
+    switchTab('list');
 });
 
-// Tab functionality
-function initializeTabs() {
-    tabTriggers.forEach(trigger => {
-        trigger.addEventListener('click', function() {
-            const targetTab = this.dataset.tab;
-            switchTab(targetTab);
+// Setup navigation buttons
+function setupNavigationButtons() {
+    // Add New Beneficiary button
+    if (addNewBeneficiaryBtn) {
+        addNewBeneficiaryBtn.addEventListener('click', function() {
+            switchTab('add');
         });
-    });
+    }
+    
+    // Back to Beneficiaries button
+    if (backToBeneficiariesBtn) {
+        backToBeneficiariesBtn.addEventListener('click', function() {
+            if (hasUnsavedChanges) {
+                if (confirm('Warning: All unsaved changes will be lost. Are you sure you want to continue?')) {
+                    hasUnsavedChanges = false;
+                    switchTab('list');
+                }
+            } else {
+                switchTab('list');
+            }
+        });
+    }
 }
 
 function switchTab(tabId) {
-    // Update active trigger
-    tabTriggers.forEach(trigger => {
-        trigger.classList.remove('active');
-        if (trigger.dataset.tab === tabId) {
-            trigger.classList.add('active');
-        }
-    });
-
     // Update active pane
     tabPanes.forEach(pane => {
         pane.classList.remove('active');
@@ -50,11 +57,10 @@ function switchTab(tabId) {
         case 'list':
             displayBeneficiaries();
             break;
-        case 'providers':
-            displayProviders();
-            break;
-        case 'matching':
-            // Don't auto-load matches, let user click the button
+        case 'add':
+            // Clear the form when switching to add tab
+            beneficiaryForm.reset();
+            hasUnsavedChanges = false;
             break;
     }
 }
@@ -67,10 +73,13 @@ function setupForms() {
         addBeneficiary();
     });
 
-    // Provider form
-    providerForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        addProvider();
+    // Track form changes
+    beneficiaryForm.addEventListener('input', function() {
+        hasUnsavedChanges = true;
+    });
+
+    beneficiaryForm.addEventListener('change', function() {
+        hasUnsavedChanges = true;
     });
 }
 
@@ -154,7 +163,12 @@ async function addBeneficiary() {
         const newBeneficiary = await apiCall('/api/beneficiaries', 'POST', beneficiaryData);
         beneficiaries.push(newBeneficiary);
         beneficiaryForm.reset();
+        hasUnsavedChanges = false;
         showSuccess('Beneficiary added successfully!');
+        // Switch back to beneficiaries list
+        setTimeout(() => {
+            switchTab('list');
+        }, 1500);
     } catch (error) {
         showError('Error adding beneficiary');
     }
@@ -200,139 +214,6 @@ function displayBeneficiaries() {
 
     tableHTML += '</tbody></table>';
     tableContainer.innerHTML = tableHTML;
-}
-
-// Provider functions
-async function loadProviders() {
-    try {
-        providers = await apiCall('/api/providers');
-        if (document.querySelector('.tab-pane.active').id === 'providers') {
-            displayProviders();
-        }
-    } catch (error) {
-        console.error('Error loading providers:', error);
-    }
-}
-
-async function addProvider() {
-    const formData = new FormData(providerForm);
-    
-    // Get selected services
-    const selectedServices = [];
-    const serviceCheckboxes = providerForm.querySelectorAll('input[name="services"]:checked');
-    serviceCheckboxes.forEach(checkbox => {
-        selectedServices.push(checkbox.value);
-    });
-
-    if (selectedServices.length === 0) {
-        showError('Please select at least one service');
-        return;
-    }
-
-    const providerData = {
-        name: formData.get('name'),
-        contactPerson: formData.get('contactPerson'),
-        email: formData.get('email') || '',
-        phone: formData.get('phone') || '',
-        location: formData.get('location') || '',
-        services: selectedServices
-    };
-
-    try {
-        const newProvider = await apiCall('/api/providers', 'POST', providerData);
-        providers.push(newProvider);
-        providerForm.reset();
-        showSuccess('Provider added successfully!');
-        displayProviders();
-    } catch (error) {
-        showError('Error adding provider');
-    }
-}
-
-function displayProviders() {
-    const tableContainer = document.getElementById('providersTable');
-    
-    if (providers.length === 0) {
-        tableContainer.innerHTML = '<p class="text-center">No providers found</p>';
-        return;
-    }
-
-    let tableHTML = `
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Company</th>
-                    <th>Contact Person</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Services</th>
-                    <th>Location</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
-
-    providers.forEach(provider => {
-        tableHTML += `
-            <tr>
-                <td>${provider.name}</td>
-                <td>${provider.contactPerson}</td>
-                <td>${provider.email || 'N/A'}</td>
-                <td>${provider.phone || 'N/A'}</td>
-                <td>
-                    ${provider.services.map(service => 
-                        `<span class="skills-badge">${service}</span>`
-                    ).join('')}
-                </td>
-                <td>${provider.location || 'N/A'}</td>
-            </tr>
-        `;
-    });
-
-    tableHTML += '</tbody></table>';
-    tableContainer.innerHTML = tableHTML;
-}
-
-// Skill matching functions
-async function generateMatches() {
-    try {
-        matches = await apiCall('/api/skill-matching');
-        displayMatches();
-    } catch (error) {
-        showError('Error generating matches');
-    }
-}
-
-function displayMatches() {
-    const matchingContainer = document.getElementById('matchingResults');
-    
-    if (matches.length === 0) {
-        matchingContainer.innerHTML = `
-            <div class="match-card">
-                <h4>No matches found</h4>
-                <p>Add more beneficiaries and providers to see skill matches</p>
-            </div>
-        `;
-        return;
-    }
-
-    let matchHTML = '';
-    matches.forEach(match => {
-        matchHTML += `
-            <div class="match-card">
-                <h4>${match.beneficiary}</h4>
-                <p><strong>Skill:</strong> ${match.skill}</p>
-                <p><strong>Matching Providers:</strong></p>
-                <div class="provider-list">
-                    ${match.providers.map(provider => 
-                        `<span class="provider-tag">${provider}</span>`
-                    ).join('')}
-                </div>
-            </div>
-        `;
-    });
-
-    matchingContainer.innerHTML = matchHTML;
 }
 
 // Utility functions
