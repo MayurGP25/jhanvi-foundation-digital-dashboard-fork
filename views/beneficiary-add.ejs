@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Beneficiary</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script>
+        window.history.forward();
+        function noBack() { window.history.forward(); }
+    </script>
+</head>
+
+<body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <h2 class="text-center fw-bold mb-4">Add Beneficiary</h2>
+
+    <form action="/beneficiaries/add" method="POST" enctype="multipart/form-data" class="card p-4 shadow-lg">
+
+        <!-- Row 1 -->
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Beneficiary Name</label>
+                <input type="text" name="beneficiary_name" required class="form-control">
+            </div>
+
+            <div class="col">
+                <label class="form-label">Parent/Spouse Name</label>
+                <input type="text" name="guardian_name" required class="form-control">
+            </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Age</label>
+                <input type="number" name="age" required min="1" max="120" class="form-control">
+            </div>
+
+            <div class="col">
+                <label class="form-label">Gender</label>
+                <select name="gender" class="form-control" required>
+                    <option value="">Choose...</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Education</label>
+                <input type="text" name="education" required class="form-control">
+            </div>
+
+            <div class="col">
+                <label class="form-label">Marital Status</label>
+                <select name="marital_status" class="form-control" required>
+                    <option value="">Choose...</option>
+                    <option>Married</option>
+                    <option>Unmarried</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Row 4 -->
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">No. of Children</label>
+                <input type="number" name="children_count" min="0" class="form-control">
+            </div>
+
+            <div class="col">
+                <label class="form-label">Identification Mark</label>
+                <input type="text" name="id_mark" class="form-control">
+            </div>
+        </div>
+
+        <!-- Row 5 -->
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Location</label>
+                <input type="text" name="location" required class="form-control">
+            </div>
+
+            <div class="col">
+                <label class="form-label">Health Status</label>
+                <input type="text" name="health_status" class="form-control">
+            </div>
+        </div>
+
+        <!-- Row 6 -->
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Habits</label>
+                <input type="text" name="habits" class="form-control">
+            </div>
+
+            <div class="col">
+                <label class="form-label">Occupation (Select)</label>
+                <select name="occupation_id" class="form-control" required>
+                    <option value="">Choose...</option>
+                    <% jobTypes.forEach(job => { %>
+                        <option value="<%= job.id %>"><%= job.job_type_name %></option>
+                    <% }); %>
+                </select>
+            </div>
+        </div>
+
+        <!-- Row 7 -->
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Place of Occupation</label>
+                <input type="text" name="occupation_place" class="form-control">
+            </div>
+
+            <div class="col">
+                <label class="form-label">Reference Person Name</label>
+                <input type="text" name="reference_name" class="form-control">
+            </div>
+        </div>
+
+        <!-- Row 8 -->
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Reference Address</label>
+                <input type="text" name="reference_address" class="form-control">
+            </div>
+
+            <div class="col">
+                <label class="form-label">Contact Number</label>
+                <input type="text" name="contact_no" required pattern="[0-9]{10}" class="form-control">
+            </div>
+        </div>
+
+        <!-- Row 9 -->
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Reason for ULB Stay</label>
+                <input type="text" name="reason_ulb" class="form-control">
+            </div>
+
+            <div class="col">
+                <label class="form-label">Stay Type</label>
+                <select name="stay_type" required class="form-control">
+                    <option value="">Choose...</option>
+                    <option>Permanent</option>
+                    <option>Temporary</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Remarks -->
+        <div class="mb-3">
+            <label class="form-label">Remarks / Special Attention</label>
+            <textarea name="remarks" rows="3" class="form-control"></textarea>
+        </div>
+
+        <!-- Photo -->
+        <div class="mb-3">
+            <label class="form-label">Upload Photo</label>
+            <input type="file" name="photo" accept="image/*" required class="form-control">
+        </div>
+
+        <button class="btn btn-primary btn-lg mt-3">Submit</button>
+
+    </form>
+
+    <div class="text-center mt-3">
+        <a href="/beneficiaries/menu" class="btn btn-outline-secondary">Back</a>
+    </div>
+
+</div>
+
+</body>
+</html>

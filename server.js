@@ -1,65 +1,40 @@
-const express = require('express');
-const path = require('path');
-const cors = require('cors');
+const express = require("express");
+const path = require("path");
+const session = require("express-session");
+
+const authRoutes = require("./routes/authRoutes");
+const beneficiaryRoutes = require("./routes/beneficiaryRoutes"); // include beneficiary routes
+const { requireLogin } = require("./middleware/authMiddleware");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors());
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
-// Sample data (in a real app, this would come from a database)
-let beneficiaries = [
-  {
-    id: 1,
-    fullName: "John Doe",
-    phoneNumber: "1234567890",
-    email: "john@example.com",
-    address: "123 Main St, City",
-    dateOfBirth: "1990-01-15",
-    gender: "Male",
-    education: "High School",
-    skills: ["Plumbing", "Electrician"],
-    experience: "2 years"
-  },
-  {
-    id: 2,
-    fullName: "Jane Smith",
-    phoneNumber: "0987654321",
-    email: "jane@example.com",
-    address: "456 Oak Ave, Town",
-    dateOfBirth: "1985-05-20",
-    gender: "Female",
-    education: "Bachelor's",
-    skills: ["Cook", "Maid"],
-    experience: "5 years"
-  }
-];
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
-// Routes
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// Session
+app.use(session({
+    secret: "jhanavi_foundation_secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { httpOnly: true, maxAge: 1000 * 60 * 60 } // 1 hour
+}));
+
+// Landing Page
+app.get("/", (req, res) => res.render("index"));
+
+// Dashboard
+app.get("/dashboard", requireLogin, (req, res) => {
+    res.render("dashboard", { user: req.session.user });
 });
 
-// API Routes
-app.get('/api/beneficiaries', (req, res) => {
-  res.json(beneficiaries);
-});
+// Route modules
+app.use("/", authRoutes);                    // login/signup/logout
+app.use("/beneficiaries", beneficiaryRoutes); // menu, add, view, edit
 
-app.post('/api/beneficiaries', (req, res) => {
-  const newBeneficiary = {
-    id: beneficiaries.length + 1,
-    ...req.body
-  };
-  beneficiaries.push(newBeneficiary);
-  res.status(201).json(newBeneficiary);
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
-
-module.exports = app;
+// Server
+app.listen(3000, () => console.log("Server running at http://localhost:3000"));
