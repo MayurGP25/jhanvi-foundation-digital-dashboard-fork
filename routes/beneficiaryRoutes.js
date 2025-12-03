@@ -18,6 +18,9 @@ router.get("/menu", requireLogin, (req, res) => {
 // Render Add Form
 router.get("/add", requireLogin, beneficiary.showAddForm);
 
+// Render Add Form (public, no login required)
+router.get("/add-public", beneficiary.showAddFormPublic);
+
 // Handle Add POST submission
 router.post(
     "/add",
