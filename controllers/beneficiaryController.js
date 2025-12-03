@@ -14,6 +14,18 @@ exports.showAddForm = async (req, res) => {
     }
 };
 
+exports.showAddFormPublic = async (req, res) => {
+    // UI only: use static jobTypes, no DB
+    const jobTypes = [
+        { id: 1, job_type_name: "Unskilled" },
+        { id: 2, job_type_name: "Skilled" },
+        { id: 3, job_type_name: "Self-employed" },
+        { id: 4, job_type_name: "Other" }
+    ];
+    const user = req.session && req.session.user ? req.session.user : null;
+    res.render("beneficiary-add", { user, jobTypes });
+};
+
 
 // Add Beneficiary
 exports.addBeneficiary = async (req, res) => {
