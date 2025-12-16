@@ -32,3 +32,18 @@ body {
     border-radius: 12px;
     box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
 }
+
+/* Ensure modal text is visible */
+.modal-content {
+    background: #ffffff;
+    color: #333;
+}
+.modal-title,
+.modal-body,
+.modal-footer,
+.form-label {
+    color: #333;
+}
+.form-control {
+    color: #333;
+}
