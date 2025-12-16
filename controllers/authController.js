@@ -49,3 +49,28 @@ exports.logout = (req, res) => {
         res.redirect("/login"); // redirect to login page
     });
 };
+
+// Direct password reset from login popup (username/email + new password)
+exports.directPasswordReset = async (req, res) => {
+    try {
+        const { email, password, confirmPassword } = req.body;
+        if (!email || !password || !confirmPassword) {
+            return res.redirect(`/login?message=${encodeURIComponent("All fields are required.")}&type=danger`);
+        }
+        if (password !== confirmPassword) {
+            return res.redirect(`/login?message=${encodeURIComponent("Passwords do not match.")}&type=danger`);
+        }
+
+        const [rows] = await db.query("SELECT id FROM users WHERE email = ?", [email]);
+        if (rows.length === 0) {
+            return res.redirect(`/login?message=${encodeURIComponent("No user found with that email.")}&type=danger`);
+        }
+
+        const hashed = await bcrypt.hash(password, 10);
+        await db.query("UPDATE users SET password = ? WHERE email = ?", [hashed, email]);
+        return res.redirect(`/login?message=${encodeURIComponent("Password updated. Please login.")}&type=success`);
+    } catch (err) {
+        console.error(err);
+        return res.redirect(`/login?message=${encodeURIComponent("Error updating password.")}&type=danger`);
+    }
+};
