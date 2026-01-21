@@ -134,7 +134,17 @@ exports.viewBeneficiaries = async (req, res) => {
         res.render("beneficiary-view", {
             user: req.session.user,
             beneficiaries: rows,
-            searchQuery
+            searchQuery,
+            filters: {
+                gender,
+                marital_status,
+                education,
+                location,
+                health_status,
+                stay_type,
+                min_age,
+                max_age
+            }
         });
 
     } catch (err) {
@@ -221,7 +231,17 @@ exports.showEditList = async (req, res) => {
         res.render("beneficiary-edit-list", {
             user: req.session.user,
             beneficiaries: rows,
-            searchQuery
+            searchQuery,
+            filters: {
+                gender,
+                marital_status,
+                education,
+                location,
+                health_status,
+                stay_type,
+                min_age,
+                max_age
+            }
         });
 
     } catch (err) {

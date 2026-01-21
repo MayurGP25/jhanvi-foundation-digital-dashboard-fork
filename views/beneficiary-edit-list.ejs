@@ -68,9 +68,9 @@
               <label class="form-label small fw-semibold">Gender</label>
               <select name="gender" class="form-select" style="border-radius:12px;">
                 <option value="">All Genders</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
+                <option value="Male" <%= filters && filters.gender === 'Male' ? 'selected' : '' %>>Male</option>
+                <option value="Female" <%= filters && filters.gender === 'Female' ? 'selected' : '' %>>Female</option>
+                <option value="Other" <%= filters && filters.gender === 'Other' ? 'selected' : '' %>>Other</option>
               </select>
             </div>
 
@@ -79,10 +79,10 @@
               <label class="form-label small fw-semibold">Marital Status</label>
               <select name="marital_status" class="form-select" style="border-radius:12px;">
                 <option value="">All Status</option>
-                <option value="Single">Single</option>
-                <option value="Married">Married</option>
-                <option value="Divorced">Divorced</option>
-                <option value="Widowed">Widowed</option>
+                <option value="Single" <%= filters && filters.marital_status === 'Single' ? 'selected' : '' %>>Single</option>
+                <option value="Married" <%= filters && filters.marital_status === 'Married' ? 'selected' : '' %>>Married</option>
+                <option value="Divorced" <%= filters && filters.marital_status === 'Divorced' ? 'selected' : '' %>>Divorced</option>
+                <option value="Widowed" <%= filters && filters.marital_status === 'Widowed' ? 'selected' : '' %>>Widowed</option>
               </select>
             </div>
 
@@ -95,6 +95,7 @@
                 class="form-control"
                 placeholder="Filter by education…"
                 style="border-radius:12px;"
+                value="<%= filters && filters.education ? filters.education : '' %>"
               />
             </div>
 
@@ -107,6 +108,7 @@
                 class="form-control"
                 placeholder="Filter by location…"
                 style="border-radius:12px;"
+                value="<%= filters && filters.location ? filters.location : '' %>"
               />
             </div>
 
@@ -119,6 +121,7 @@
                 class="form-control"
                 placeholder="Filter by health status…"
                 style="border-radius:12px;"
+                value="<%= filters && filters.health_status ? filters.health_status : '' %>"
               />
             </div>
 
@@ -131,6 +134,7 @@
                 class="form-control"
                 placeholder="Filter by stay type…"
                 style="border-radius:12px;"
+                value="<%= filters && filters.stay_type ? filters.stay_type : '' %>"
               />
             </div>
 
@@ -144,6 +148,7 @@
                 placeholder="Min age"
                 min="0"
                 style="border-radius:12px;"
+                value="<%= filters && filters.min_age ? filters.min_age : '' %>"
               />
             </div>
 
@@ -156,6 +161,7 @@
                 placeholder="Max age"
                 min="0"
                 style="border-radius:12px;"
+                value="<%= filters && filters.max_age ? filters.max_age : '' %>"
               />
             </div>
 
