@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Beneficiary</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body { 
+            background: radial-gradient(circle at top left, #e3f2fd, #f5f7fb); 
+            min-height: 100vh; 
+        }
+        .app-header { 
+            backdrop-filter: blur(8px); 
+            background: rgba(15, 23, 42, 0.92); 
+        }
+        .surface { 
+            border: none; 
+            border-radius: 18px; 
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12); 
+        }
+        .btn-pill { 
+            border-radius: 999px; 
+        }
+        .section-title {
+            font-weight: 700;
+            font-size: 1.6rem;
+            letter-spacing: 0.02em;
+            color: #0f172a;
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.45);
+        }
+        .form-control, .form-select, textarea { 
+            border-radius: 12px; 
+        }
+        textarea { 
+            min-height: 110px; 
+        }
+        .help { 
+            font-size: .85rem; 
+            color: #6c757d; 
+        }
+        .photo-upload-container {
+            width: 140px;
+            height: 180px;
+            border: 2px dashed #999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+            background: #fafafa;
+            position: relative;
+            transition: border-color 0.3s;
+            border-radius: 12px;
+        }
+        .photo-upload-container:hover {
+            border-color: #2c3e50;
+            background: #f0f0f0;
+        }
+        .photo-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        .photo-placeholder-text {
+            text-align: center;
+            font-size: 9pt;
+            color: #777;
+            padding: 5px;
+        }
+        .is-invalid {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+        .photo-upload-container.is-invalid {
+            border-color: #dc3545 !important;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        .error-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark app-header shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-semibold" href="/dashboard">NGO Digital Dashboard</a>
+            <div class="d-flex gap-2">
+                <a href="/beneficiaries/edit" class="btn btn-outline-light btn-sm btn-pill">Back</a>
+                <a href="/logout" class="btn btn-outline-light btn-sm btn-pill">Sign Out</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
+            <div>
+                <h1 class="fw-bold mb-1" style="color: #000;">Edit Beneficiary</h1>
+                <p class="text-muted mb-0">Update beneficiary information</p>
+            </div>
+        </div>
+
+        <div class="card surface">
+            <div class="card-body p-4 p-md-5">
+                <form id="beneficiaryForm" method="POST" action="/beneficiaries/edit/<%= beneficiary.id %>" enctype="multipart/form-data">
+                    
+                    <div class="section-title">Personal Information</div>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-9">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Name (Beneficiary Name) *</label>
+                                    <input type="text" class="form-control" id="beneficiary_name" name="beneficiary_name" value="<%= beneficiary.beneficiary_name %>" required>
+                                    <div class="error-message" id="beneficiary_name-error">Beneficiary Name is required</div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Name of Father/Mother/Husband</label>
+                                    <input type="text" class="form-control" id="guardian_name" name="guardian_name" value="<%= beneficiary.guardian_name %>">
+                                    <div class="error-message" id="guardian_name-error">Name of Father/Mother/Husband is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <label class="form-label fw-semibold">Photo</label>
+                            <div class="photo-upload-container" onclick="document.getElementById('photoInput').click()">
+                                <input type="file" id="photoInput" name="photo" accept="image/*" style="display: none;" onchange="handlePhotoUpload(this)">
+                                <% if (beneficiary.photo) { %>
+                                    <img id="photoPreview" class="photo-preview" src="data:image/jpeg;base64,<%= beneficiary.photo.toString('base64') %>" alt="Beneficiary Photo" style="display: block;">
+                                <% } else { %>
+                                    <img id="photoPreview" class="photo-preview" src="" alt="Beneficiary Photo">
+                                    <div class="photo-placeholder-text" id="photoPlaceholder">
+                                        Click to upload passport photo<br>(35mm × 45mm)
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="error-message" id="photoInput-error">Photo is required</div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label class="form-label fw-semibold">Age</label>
+                            <input type="number" class="form-control" id="age" name="age" value="<%= beneficiary.age %>">
+                            <div class="error-message" id="age-error">Age is required</div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label class="form-label fw-semibold">Gender</label>
+                            <select class="form-select" id="gender" name="gender">
+                                <option value="Male" <%= beneficiary.gender === 'Male' ? 'selected' : '' %>>Male</option>
+                                <option value="Female" <%= beneficiary.gender === 'Female' ? 'selected' : '' %>>Female</option>
+                                <option value="Other" <%= beneficiary.gender === 'Other' ? 'selected' : '' %>>Other</option>
+                            </select>
+                            <div class="error-message" id="gender-error">Gender is required</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Education</label>
+                            <input type="text" class="form-control" id="education" name="education" value="<%= beneficiary.education %>">
+                            <div class="error-message" id="education-error">Education is required</div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fw-semibold">Marital Status</label>
+                            <select class="form-select" id="marital_status" name="marital_status">
+                                <option value="Unmarried" <%= beneficiary.marital_status === 'Unmarried' ? 'selected' : '' %>>Unmarried</option>
+                                <option value="Married" <%= beneficiary.marital_status === 'Married' ? 'selected' : '' %>>Married</option>
+                                <option value="Divorced" <%= beneficiary.marital_status === 'Divorced' ? 'selected' : '' %>>Divorced</option>
+                                <option value="Widowed" <%= beneficiary.marital_status === 'Widowed' ? 'selected' : '' %>>Widowed</option>
+                            </select>
+                            <div class="error-message" id="marital_status-error">Marital Status is required</div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fw-semibold">No. of Children</label>
+                            <input type="number" class="form-control" id="children_count" name="children_count" value="<%= beneficiary.children_count %>">
+                            <div class="error-message" id="children_count-error">No. of Children is required</div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fw-semibold">Identification Mark</label>
+                            <input type="text" class="form-control" id="id_mark" name="id_mark" value="<%= beneficiary.id_mark %>">
+                            <div class="error-message" id="id_mark-error">Identification Mark is required</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Location / Whereabouts</label>
+                            <input type="text" class="form-control" id="location" name="location" value="<%= beneficiary.location %>">
+                            <div class="error-message" id="location-error">Location / Whereabouts is required</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Health Status</label>
+                            <input type="text" class="form-control" id="health_status" name="health_status" value="<%= beneficiary.health_status %>">
+                            <div class="error-message" id="health_status-error">Health Status is required</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Habits</label>
+                            <input type="text" class="form-control" id="habits" name="habits" value="<%= beneficiary.habits %>">
+                            <div class="error-message" id="habits-error">Habits is required</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Occupation (Select)</label>
+                            <select class="form-select" id="occupation_id" name="occupation_id" multiple size="4">
+                                <% jobTypes.forEach(job => { %>
+                                    <option value="<%= job.id %>" <%= beneficiary.occupation_id == job.id ? 'selected' : '' %>><%= job.job_type_name %></option>
+                                <% }); %>
+                            </select>
+                            <div class="help mt-1">Hold Ctrl/Cmd to select multiple types.</div>
+                            <div class="error-message" id="occupation_id-error">Occupation is required</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Place of Occupation</label>
+                            <input type="text" class="form-control" id="occupation_place" name="occupation_place" value="<%= beneficiary.occupation_place %>">
+                            <div class="error-message" id="occupation_place-error">Place of Occupation is required</div>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Reference Person Details</div>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Reference Person Name</label>
+                            <input type="text" class="form-control" id="reference_name" name="reference_name" value="<%= beneficiary.reference_name %>">
+                            <div class="error-message" id="reference_name-error">Reference Person Name is required</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Reference Address</label>
+                            <input type="text" class="form-control" id="reference_address" name="reference_address" value="<%= beneficiary.reference_address %>">
+                            <div class="error-message" id="reference_address-error">Reference Address is required</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Contact Number</label>
+                            <input type="tel" class="form-control" id="contact_no" name="contact_no" value="<%= beneficiary.contact_no %>">
+                            <div class="error-message" id="contact_no-error">Contact Number is required</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Reason for ULB Stay</label>
+                            <input type="text" class="form-control" id="reason_ulb" name="reason_ulb" value="<%= beneficiary.reason_ulb %>">
+                            <div class="error-message" id="reason_ulb-error">Reason for ULB Stay is required</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Stay Type</label>
+                            <select class="form-select" id="stay_type" name="stay_type">
+                                <option value="Permanent" <%= beneficiary.stay_type === 'Permanent' ? 'selected' : '' %>>Permanent</option>
+                                <option value="Temporary" <%= beneficiary.stay_type === 'Temporary' ? 'selected' : '' %>>Temporary</option>
+                            </select>
+                            <div class="error-message" id="stay_type-error">Stay Type is required</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Remarks / Special Attention</label>
+                            <textarea class="form-control" id="remarks" name="remarks" rows="3"><%= beneficiary.remarks %></textarea>
+                            <div class="error-message" id="remarks-error">Remarks / Special Attention is required</div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column flex-sm-row gap-2 justify-content-end mt-4">
+                        <a href="/beneficiaries/edit" class="btn btn-outline-secondary btn-pill">Cancel</a>
+                        <button type="submit" class="btn btn-success btn-pill">
+                            Update Beneficiary
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function handlePhotoUpload(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('photoPreview').src = e.target.result;
+                    document.getElementById('photoPreview').style.display = 'block';
+                    const placeholder = document.getElementById('photoPlaceholder');
+                    if (placeholder) placeholder.style.display = 'none';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Hide photo placeholder if photo exists
+        window.addEventListener('DOMContentLoaded', () => {
+            const preview = document.getElementById('photoPreview');
+            const placeholder = document.getElementById('photoPlaceholder');
+            if (preview.src && preview.src !== window.location.href) {
+                preview.style.display = 'block';
+                if (placeholder) placeholder.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -112,4 +112,125 @@ exports.downloadPhoto = async (req, res) => {
     }
 };
 
+// Edit Beneficiary - Show List
+exports.showEditList = async (req, res) => {
+    const searchQuery = req.query.search || "";
+    try {
+        let sql = "SELECT id, beneficiary_name, guardian_name, age, gender, location, contact_no FROM beneficiaries";
+        let params = [];
+
+        if (searchQuery) {
+            sql += " WHERE beneficiary_name LIKE ?";
+            params.push(`%${searchQuery}%`);
+        }
+
+        const [rows] = await db.query(sql, params);
+
+        res.render("beneficiary-edit-list", {
+            user: req.session.user,
+            beneficiaries: rows,
+            searchQuery
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.send("Error fetching beneficiaries.");
+    }
+};
+
+// Edit Beneficiary - Show Edit Form
+exports.showEditForm = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const [jobTypes] = await db.query("SELECT id, job_type_name FROM job_types ORDER BY id ASC");
+        const [rows] = await db.query("SELECT * FROM beneficiaries WHERE id = ?", [id]);
+        
+        if (rows.length === 0) {
+            return res.status(404).send("Beneficiary not found");
+        }
+
+        res.render("beneficiary-edit-form", {
+            user: req.session.user,
+            beneficiary: rows[0],
+            jobTypes
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.send("Error loading edit form.");
+    }
+};
+
+// Edit Beneficiary - Update
+exports.updateBeneficiary = async (req, res) => {
+    const id = req.params.id;
+    const {
+        beneficiary_name,
+        guardian_name,
+        age,
+        gender,
+        education,
+        marital_status,
+        children_count,
+        id_mark,
+        location,
+        health_status,
+        habits,
+        occupation_id,
+        occupation_place,
+        reference_name,
+        reference_address,
+        contact_no,
+        reason_ulb,
+        stay_type,
+        remarks
+    } = req.body;
+
+    const photo = req.file ? req.file.buffer : null;
+
+    try {
+        let sql = `UPDATE beneficiaries SET 
+            beneficiary_name = ?, guardian_name = ?, age = ?, gender = ?, education = ?, 
+            marital_status = ?, children_count = ?, id_mark = ?, location = ?, health_status = ?, 
+            habits = ?, occupation_id = ?, occupation_place = ?, reference_name = ?, 
+            reference_address = ?, contact_no = ?, reason_ulb = ?, stay_type = ?, remarks = ?`;
+        
+        const params = [
+            beneficiary_name, guardian_name, age, gender, education, marital_status, 
+            children_count, id_mark, location, health_status, habits, occupation_id, 
+            occupation_place, reference_name, reference_address, contact_no, 
+            reason_ulb, stay_type, remarks
+        ];
+
+        // Only update photo if a new one is uploaded
+        if (photo) {
+            sql += ", photo = ?";
+            params.push(photo);
+        }
+
+        sql += " WHERE id = ?";
+        params.push(id);
+
+        await db.query(sql, params);
+
+        res.redirect("/beneficiaries/edit");
+
+    } catch (err) {
+        console.error(err);
+        res.send("Error updating beneficiary.");
+    }
+};
+
+// Delete Beneficiary
+exports.deleteBeneficiary = async (req, res) => {
+    const id = req.params.id;
+    try {
+        await db.query("DELETE FROM beneficiaries WHERE id = ?", [id]);
+        res.redirect("/beneficiaries/edit");
+    } catch (err) {
+        console.error(err);
+        res.send("Error deleting beneficiary.");
+    }
+};
+
 module.exports.upload = upload; // export multer for routes

@@ -33,4 +33,25 @@ router.post(
 router.get("/view", beneficiary.viewBeneficiaries);
 router.get("/photo/:id", beneficiary.downloadPhoto);
 
+// =========================
+//  Edit Beneficiary
+// =========================
+
+// Show list of beneficiaries for editing
+router.get("/edit", requireLogin, beneficiary.showEditList);
+
+// Show edit form for specific beneficiary
+router.get("/edit/:id", requireLogin, beneficiary.showEditForm);
+
+// Handle update POST submission
+router.post(
+    "/edit/:id",
+    requireLogin,
+    beneficiary.upload.single("photo"),
+    beneficiary.updateBeneficiary
+);
+
+// Handle delete POST submission
+router.post("/delete/:id", requireLogin, beneficiary.deleteBeneficiary);
+
 module.exports = router;
