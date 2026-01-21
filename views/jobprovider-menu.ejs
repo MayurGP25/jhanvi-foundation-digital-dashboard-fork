@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Provider Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .page-container {
+            max-width: 900px;
+            margin: 80px auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #343a40;
+        }
+
+        .action-btn {
+            border-radius: 30px;
+            width: 250px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 30px;
+        }
+
+        .footer-link {
+            margin-top: 40px;
+        }
+    </style>
+
+    <script>
+        window.history.forward();
+        function noBack() { window.history.forward(); }
+    </script>
+</head>
+<body onload="noBack();" onpageshow="if (event.persisted) noBack();">
+
+<div class="page-container text-center">
+
+    <!-- Top Sign Out -->
+    <div class="top-bar">
+        <a href="/logout" class="btn btn-danger btn-lg">Sign Out</a>
+    </div>
+
+    <!-- Page Title -->
+    <h1 class="mb-5 fw-bold">Job Provider Management</h1>
+
+    <!-- Action Buttons -->
+    <div class="d-flex flex-column flex-md-row justify-content-center gap-4 mb-4">
+        <a href="/jobproviders/add" class="btn btn-primary btn-lg action-btn">
+            ➕ Add Job Provider
+        </a>
+
+        <a href="/jobproviders/view" class="btn btn-success btn-lg action-btn">
+            📄 View/Update Job Providers
+        </a>
+    </div>
+
+    <!-- Back to Dashboard -->
+    <div class="footer-link">
+        <a href="/dashboard" class="btn btn-outline-secondary btn-lg">
+            ⬅ Back to Dashboard
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>
