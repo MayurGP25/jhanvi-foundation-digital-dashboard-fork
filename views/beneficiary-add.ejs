@@ -5,73 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beneficiary Registration Form</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/css/styles.css">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #eef2f5;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        body { 
+            background: radial-gradient(circle at top left, #e3f2fd, #f5f7fb); 
+            min-height: 100vh; 
         }
-        #form-container {
-            background-color: white;
-            width: 210mm;
-            min-height: 297mm;
-            padding: 20mm;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-            box-sizing: border-box; 
-            position: relative;
+        .app-header { 
+            backdrop-filter: blur(8px); 
+            background: rgba(15, 23, 42, 0.92); 
         }
-        h2 { margin: 0 0 5px 0; color: #333; font-size: 18pt; text-transform: uppercase; text-align: center; }
-        .header-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #333;
-            padding-bottom: 10px;
+        .surface { 
+            border: none; 
+            border-radius: 18px; 
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12); 
         }
-        .form-row {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 12px;
-            align-items: flex-end;
+        .btn-pill { 
+            border-radius: 999px; 
         }
-        .form-field {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        label {
+        .section-title {
             font-weight: 700;
-            margin-bottom: 2px;
-            color: #333;
-            font-size: 10pt;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            color: #0f172a;
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.45);
         }
-        input, textarea, select {
-            width: 100%;
-            padding: 6px;
-            border: 1px solid #ccc;
-            border-radius: 0;
-            font-family: inherit;
-            background-color: #fcfcfc;
-            font-size: 11pt;
-            border-bottom: 2px solid #ddd;
-            border-top: none;
-            border-left: none;
-            border-right: none;
-            transition: border-color 0.3s;
+        .form-control, .form-select, textarea { 
+            border-radius: 12px; 
         }
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-bottom-color: #2c3e50;
-            background-color: #f0f8ff;
+        textarea { 
+            min-height: 110px; 
+        }
+        .help { 
+            font-size: .85rem; 
+            color: #6c757d; 
         }
         .photo-upload-container {
-            width: 35mm;
-            height: 45mm;
+            width: 140px;
+            height: 180px;
             border: 2px dashed #999;
             display: flex;
             flex-direction: column;
@@ -82,6 +57,7 @@
             background: #fafafa;
             position: relative;
             transition: border-color 0.3s;
+            border-radius: 12px;
         }
         .photo-upload-container:hover {
             border-color: #2c3e50;
@@ -99,232 +75,200 @@
             color: #777;
             padding: 5px;
         }
-        .action-bar {
-            margin-bottom: 20px;
-            position: sticky;
-            top: 20px;
-            z-index: 100;
-        }
-        .submit-btn {
-            background-color: #2c3e50;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .submit-btn:hover {
-            background-color: #1a252f;
-            transform: translateY(-1px);
-        }
-        .submit-btn.primary-action {
-            background-color: #27ae60;
-        }
-        .submit-btn.primary-action:hover {
-            background-color: #219150;
-        }
-        .section-header {
-            font-weight: bold;
-            font-size: 12pt;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 3px;
-        }
-        .w-full { width: 100%; }
-        .w-half { width: 48%; }
-        .w-third { width: 30%; }
-        .w-small { width: 15%; }
     </style>
 </head>
 <body>
-    <div class="action-bar">
-        <button class="submit-btn" onclick="generatePDF()">
-            <span>Download PDF</span>
-        </button>
-    </div>
-    <div id="form-container">
-        <div class="header-section">
-            <div style="flex-grow: 1; padding-top: 20px;">
-                <h2>Registration of Homeless Person</h2>
-            </div>
-            <div class="photo-upload-container" onclick="document.getElementById('photoInput').click()">
-                <input type="file" id="photoInput" accept="image/*" style="display: none;" onchange="handlePhotoUpload(this)">
-                <img id="photoPreview" class="photo-preview" src="" alt="Beneficiary Photo">
-                <div id="photoPlaceholder" class="photo-placeholder-text">
-                    <span>Click to Upload<br>Photo</span>
-                    <br><small>(3.5 x 4.5 cm)</small>
-                </div>
+    <nav class="navbar navbar-dark app-header shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-semibold" href="/dashboard">NGO Digital Dashboard</a>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-light btn-sm btn-pill" onclick="generatePDF()">Download PDF</button>
+                <a href="/beneficiaries/menu" class="btn btn-outline-light btn-sm btn-pill">Back</a>
+                <a href="/logout" class="btn btn-outline-light btn-sm btn-pill">Sign Out</a>
             </div>
         </div>
-        <form id="beneficiaryForm">
-            <div class="form-row">
-                <div class="form-field w-full">
-                    <label>Name (Beneficiary Name)</label>
-                    <input type="text" id="beneficiary_name" name="beneficiary_name" placeholder="Enter Full Name">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field w-full">
-                    <label>Name of Father/Mother/Husband</label>
-                    <input type="text" id="guardian_name" name="guardian_name" placeholder="Enter Relative's Name">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field w-small">
-                    <label>Age</label>
-                    <input type="number" id="age" name="age" placeholder="Yrs">
-                </div>
-                <div class="form-field w-third">
-                    <label>Gender</label>
-                    <select id="gender" name="gender">
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="form-field w-half">
-                    <label>Education</label>
-                    <input type="text" id="education" name="education" placeholder="e.g. 10th Pass">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field w-third">
-                    <label>Marital Status</label>
-                    <select id="marital_status" name="marital_status">
-                        <option value="Unmarried">Unmarried</option>
-                        <option value="Married">Married</option>
-                        <option value="Divorced">Divorced</option>
-                        <option value="Widowed">Widowed</option>
-                    </select>
-                </div>
-                <div class="form-field w-small">
-                    <label>No. of Children</label>
-                    <input type="number" id="children_count" name="children_count" value="0">
-                </div>
-                <div class="form-field w-half">
-                    <label>Identification Mark</label>
-                    <input type="text" id="id_mark" name="id_mark" placeholder="e.g. Mole on cheek">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field w-full">
-                    <label>Location / Whereabouts</label>
-                    <input type="text" id="location" name="location" placeholder="Current staying location">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field w-half">
-                    <label>Health Status</label>
-                    <input type="text" id="health_status" name="health_status" placeholder="e.g. Good, Sick">
-                </div>
-                <div class="form-field w-half">
-                    <label>Habits</label>
-                    <input type="text" id="habits" name="habits" placeholder="e.g. Smoking, None">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field w-half">
-                    <label>Occupation (Select)</label>
-                    <select id="occupation_id" name="occupation_id">
-                        <% jobTypes.forEach(job => { %>
-                            <option value="<%= job.id %>"><%= job.job_type_name %></option>
-                        <% }); %>
-                    </select>
-                </div>
-                <div class="form-field w-half">
-                    <label>Place of Occupation</label>
-                    <input type="text" id="occupation_place" name="occupation_place">
-                </div>
-            </div>
-            <div class="section-header">Reference Person Details</div>
-            <div class="form-row">
-                <div class="form-field w-half">
-                    <label>Reference Person Name</label>
-                    <input type="text" id="reference_name" name="reference_name">
-                </div>
-                <div class="form-field w-half">
-                    <label>Reference Address</label>
-                    <input type="text" id="reference_address" name="reference_address">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field w-half">
-                    <label>Contact Number</label>
-                    <input type="text" id="contact_no" name="contact_no">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field w-half">
-                    <label>Reason for ULB Stay</label>
-                    <input type="text" id="reason_ulb" name="reason_ulb">
-                </div>
-                <div class="form-field w-half">
-                    <label>Stay Type</label>
-                    <select id="stay_type" name="stay_type">
-                        <option value="Permanent">Permanent</option>
-                        <option value="Temporary">Temporary</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field w-full">
-                    <label>Remarks / Special Attention</label>
-                    <textarea id="remarks" name="remarks" rows="2" placeholder="Any special notes..."></textarea>
-                </div>
-            </div>
-            <!-- Keep the rest of the form (photo, office use, etc.) as is -->
-        </form>
-        <div class="form-row" style="margin-top: 40px; margin-bottom: 40px;">
-            <div class="form-field w-half">
-                <div style="border-bottom: 1px solid #000; width: 80%; margin-bottom: 5px;"></div>
-                <label style="font-weight: normal; font-size: 9pt;">Signature / Thumb Impression</label>
+    </nav>
+
+    <main class="container py-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
+            <div>
+                <h1 class="fw-bold mb-1" style="color: #000;">Beneficiary Registration Form</h1>
+                <p class="text-muted mb-0">Registration of Homeless Person</p>
             </div>
         </div>
-        <div class="section-header" style="border-top: 2px solid #333; padding-top: 10px;">Office & Shelter Details</div>
-        <div class="form-row">
-            <div class="form-field w-half">
-                <label>Name of the Shelter</label>
-                <input type="text" id="shelterName">
-            </div>
-            <div class="form-field w-half">
-                <label>Location</label>
-                <input type="text" id="shelterLocation">
+
+        <div class="card surface">
+            <div class="card-body p-4 p-md-5">
+                <form id="beneficiaryForm" method="POST" action="/beneficiaries/add" enctype="multipart/form-data">
+                    
+                    <div class="section-title">Photo</div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-12">
+                            <div class="photo-upload-container" onclick="document.getElementById('photoInput').click()">
+                                <input type="file" id="photoInput" name="photo" accept="image/*" style="display: none;" onchange="handlePhotoUpload(this)">
+                                <img id="photoPreview" class="photo-preview" src="" alt="Beneficiary Photo">
+                                <div class="photo-placeholder-text" id="photoPlaceholder">
+                                    Click to upload passport photo<br>(35mm × 45mm)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Personal Information</div>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Name (Beneficiary Name) *</label>
+                            <input type="text" class="form-control" id="beneficiary_name" name="beneficiary_name" placeholder="Enter Full Name" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Name of Father/Mother/Husband</label>
+                            <input type="text" class="form-control" id="guardian_name" name="guardian_name" placeholder="Enter Relative's Name">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label class="form-label fw-semibold">Age</label>
+                            <input type="number" class="form-control" id="age" name="age" placeholder="Years">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label class="form-label fw-semibold">Gender</label>
+                            <select class="form-select" id="gender" name="gender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Education</label>
+                            <input type="text" class="form-control" id="education" name="education" placeholder="e.g. 10th Pass">
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fw-semibold">Marital Status</label>
+                            <select class="form-select" id="marital_status" name="marital_status">
+                                <option value="Unmarried">Unmarried</option>
+                                <option value="Married">Married</option>
+                                <option value="Divorced">Divorced</option>
+                                <option value="Widowed">Widowed</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fw-semibold">No. of Children</label>
+                            <input type="number" class="form-control" id="children_count" name="children_count" value="0">
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fw-semibold">Identification Mark</label>
+                            <input type="text" class="form-control" id="id_mark" name="id_mark" placeholder="e.g. Mole on cheek">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Location / Whereabouts</label>
+                            <input type="text" class="form-control" id="location" name="location" placeholder="Current staying location">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Health Status</label>
+                            <input type="text" class="form-control" id="health_status" name="health_status" placeholder="e.g. Good, Sick">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Habits</label>
+                            <input type="text" class="form-control" id="habits" name="habits" placeholder="e.g. Smoking, None">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Occupation (Select)</label>
+                            <select class="form-select" id="occupation_id" name="occupation_id" multiple size="4">
+                                <% jobTypes.forEach(job => { %>
+                                    <option value="<%= job.id %>"><%= job.job_type_name %></option>
+                                <% }); %>
+                            </select>
+                            <div class="help mt-1">Hold Ctrl/Cmd to select multiple types.</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Place of Occupation</label>
+                            <input type="text" class="form-control" id="occupation_place" name="occupation_place">
+                        </div>
+                    </div>
+
+                    <div class="section-title">Reference Person Details</div>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Reference Person Name</label>
+                            <input type="text" class="form-control" id="reference_name" name="reference_name">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Reference Address</label>
+                            <input type="text" class="form-control" id="reference_address" name="reference_address">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Contact Number</label>
+                            <input type="tel" class="form-control" id="contact_no" name="contact_no">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Reason for ULB Stay</label>
+                            <input type="text" class="form-control" id="reason_ulb" name="reason_ulb">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Stay Type</label>
+                            <select class="form-select" id="stay_type" name="stay_type">
+                                <option value="Permanent">Permanent</option>
+                                <option value="Temporary">Temporary</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Remarks / Special Attention</label>
+                            <textarea class="form-control" id="remarks" name="remarks" rows="3" placeholder="Any special notes..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Signature</div>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Signature / Thumb Impression</label>
+                            <div style="border: 1px solid #dee2e6; border-radius: 12px; padding: 40px; text-align: center; background-color: #f8f9fa;">
+                                <small class="text-muted">Place signature or thumb impression here</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Office & Shelter Details</div>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Name of the Shelter</label>
+                            <input type="text" class="form-control" id="shelterName">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Location</label>
+                            <input type="text" class="form-control" id="shelterLocation">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Name of the ULB</label>
+                            <input type="text" class="form-control" id="ulbName" value="Municipal Corporation">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Shelter Management Agency Name</label>
+                            <input type="text" class="form-control" id="agencyName">
+                        </div>
+                    </div>
+
+                    <div class="section-title">Office Use Only</div>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fw-semibold">Ward No</label>
+                            <input type="text" class="form-control" id="wardNo">
+                        </div>
+                        <div class="col-12 col-md-8">
+                            <label class="form-label fw-semibold">Signature of the Surveyor</label>
+                            <div style="border: 1px solid #dee2e6; border-radius: 12px; padding: 30px; background-color: #f8f9fa;"></div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column flex-sm-row gap-2 justify-content-end mt-4">
+                        <a href="/beneficiaries/menu" class="btn btn-outline-secondary btn-pill">Cancel</a>
+                        <button type="submit" class="btn btn-success btn-pill">
+                            Submit Registration
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="form-row">
-            <div class="form-field w-half">
-                <label>Name of the ULB</label>
-                <input type="text" id="ulbName" value="Municipal Corporation">
-            </div>
-            <div class="form-field w-half">
-                <label>Shelter Management Agency Name</label>
-                <input type="text" id="agencyName">
-            </div>
-        </div>
-        <div class="section-header">Office Use Only</div>
-        <div class="form-row">
-            <div class="form-field w-small">
-                <label>Ward No</label>
-                <input type="text" id="wardNo">
-            </div>
-            <div class="form-field w-half" style="margin-left: auto; text-align: right;">
-                 <div style="border-bottom: 1px solid #000; width: 100%; margin-bottom: 5px; margin-top: 15px;"></div>
-                <label style="font-weight: normal; font-size: 9pt;">Signature of the Surveyor</label>
-            </div>
-        </div>
-        <div class="form-row" style="margin-top: 40px; justify-content: center;">
-            <button class="submit-btn primary-action" style="width: 50%; justify-content: center;" onclick="submitForm()">
-    <span>Submit Registration</span>
-</button>
-        </div>
-    </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         let uploadedPhotoData = null;
         function handlePhotoUpload(input) {
@@ -339,17 +283,15 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
-        function submitForm() {
-            const name = document.getElementById('name').value;
-            if (!name.trim()) {
-                alert("Please enter the Beneficiary Name.");
-            return;
-        }
-            alert("Registration Submitted Successfully! Downloading copy...");
-            generatePDF();
-        }
+        
         async function generatePDF() {
             const { jsPDF } = window.jspdf;
+            
+            // Get selected occupation types
+            const occupationSelect = document.getElementById('occupation_id');
+            const selectedOptions = Array.from(occupationSelect.selectedOptions);
+            const occupationText = selectedOptions.map(opt => opt.text).join(', ');
+            
             const d = {
                 beneficiary_name: document.getElementById('beneficiary_name').value,
                 guardian_name: document.getElementById('guardian_name').value,
@@ -362,7 +304,7 @@
                 location: document.getElementById('location').value,
                 health_status: document.getElementById('health_status').value,
                 habits: document.getElementById('habits').value,
-                occupation_id: document.getElementById('occupation_id').value,
+                occupation_id: occupationText,
                 occupation_place: document.getElementById('occupation_place').value,
                 reference_name: document.getElementById('reference_name').value,
                 reference_address: document.getElementById('reference_address').value,
@@ -370,13 +312,13 @@
                 reason_ulb: document.getElementById('reason_ulb').value,
                 stay_type: document.getElementById('stay_type').value,
                 remarks: document.getElementById('remarks').value,
-                // Keep the rest as is for office use fields
                 shelter: document.getElementById('shelterName').value,
                 shelterLoc: document.getElementById('shelterLocation').value,
                 ulb: document.getElementById('ulbName').value,
                 agency: document.getElementById('agencyName').value,
                 ward: document.getElementById('wardNo').value,
             };
+            
             const pdf = new jsPDF('p', 'mm', 'a4');
             const startX = 20;
             const endX = 190;
@@ -387,6 +329,7 @@
             const setLabel = () => { pdf.setFont('helvetica', 'bold'); pdf.setFontSize(9); pdf.setTextColor(50); };
             const setValue = () => { pdf.setFont('helvetica', 'normal'); pdf.setFontSize(10); pdf.setTextColor(0); };
             const setHeader = () => { pdf.setFont('helvetica', 'bold'); pdf.setFontSize(11); pdf.setTextColor(0); };
+            
             function field(label, value, x, w, multi = false) {
                 setLabel();
                 pdf.text(label, x, y);
@@ -405,14 +348,17 @@
                 }
                 return h + 4;
             }
+            
             pdf.setFontSize(16);
             pdf.setFont('helvetica', 'bold');
             pdf.text('Registration of Homeless Person', startX, y + 5);
+            
             const photoW = 35;
             const photoH = 45;
             const photoX = endX - photoW;
             pdf.setDrawColor(0);
             pdf.rect(photoX, y, photoW, photoH);
+            
             if (uploadedPhotoData) {
                 try {
                     pdf.addImage(uploadedPhotoData, 'JPEG', photoX + 1, y + 1, photoW - 2, photoH - 2);
@@ -426,9 +372,11 @@
                 pdf.setTextColor(150);
                 pdf.text('Photo', photoX + (photoW/2), y + (photoH/2), { align: 'center' });
             }
+            
             y += 20;
-            y += field('Name:', d.name, startX, fullW - 40) + pad;
-                y += field('Name of Father/Mother/Husband:', d.guardian_name, startX, fullW - 40) + pad;
+            y += field('Name:', d.beneficiary_name, startX, fullW - 40) + pad;
+            y += field('Name of Father/Mother/Husband:', d.guardian_name, startX, fullW - 40) + pad;
+            
             let rowY = y;
             let maxH = 0;
             const col3 = (fullW - 10) / 3;
@@ -436,67 +384,81 @@
             y = rowY; 
             maxH = Math.max(maxH, field('Gender:', d.gender, startX + col3 + 5, col3));
             y = rowY;
-            maxH = Math.max(maxH, field('Qualification:', d.qual, startX + (col3 * 2) + 10, col3));
+            maxH = Math.max(maxH, field('Qualification:', d.education, startX + (col3 * 2) + 10, col3));
             y = rowY + maxH + pad;
+            
             rowY = y;
             maxH = 0;
-            maxH = Math.max(maxH, field('Marital Status:', d.marital, startX, col3));
+            maxH = Math.max(maxH, field('Marital Status:', d.marital_status, startX, col3));
             y = rowY;
-            maxH = Math.max(maxH, field('No of Children:', d.children, startX + col3 + 5, col3));
+            maxH = Math.max(maxH, field('No of Children:', d.children_count, startX + col3 + 5, col3));
             y = rowY;
-            maxH = Math.max(maxH, field('Personal Identification Mark:', d.idMark, startX + (col3 * 2) + 10, col3));
+            maxH = Math.max(maxH, field('Personal Identification Mark:', d.id_mark, startX + (col3 * 2) + 10, col3));
             y = rowY + maxH + pad;
-            y += field('Location/Whereabouts:', d.loc, startX, fullW) + pad;
+            
+            y += field('Location/Whereabouts:', d.location, startX, fullW) + pad;
+            
             rowY = y;
             const halfW = (fullW - 5) / 2;
-            maxH = Math.max(0, field('Occupation/Activity:', d.occ, startX, halfW));
+            maxH = Math.max(0, field('Occupation/Activity:', d.occupation_id, startX, halfW));
             y = rowY;
-            maxH = Math.max(maxH, field('Place of Occupation/Activity:', d.placeOcc, startX + halfW + 5, halfW));
+            maxH = Math.max(maxH, field('Place of Occupation/Activity:', d.occupation_place, startX + halfW + 5, halfW));
             y = rowY + maxH + pad;
-            const refCombined = (d.refName || '') + (d.refAddr ? ', ' + d.refAddr : '');
+            
+            const refCombined = (d.reference_name || '') + (d.reference_address ? ', ' + d.reference_address : '');
             y += field('Reference persons Name & Address:', refCombined, startX, fullW, true) + pad;
-            y += field('Phone No:', d.phone, startX, halfW) + pad;
+            y += field('Phone No:', d.contact_no, startX, halfW) + pad;
+            
             rowY = y;
-            maxH = Math.max(0, field('Health Status:', d.health, startX, halfW));
+            maxH = Math.max(0, field('Health Status:', d.health_status, startX, halfW));
             y = rowY;
             maxH = Math.max(maxH, field('Habits:', d.habits, startX + halfW + 5, halfW));
             y = rowY + maxH + pad;
+            
             rowY = y;
-            maxH = Math.max(0, field('Reason for stay in the ULB:', d.reason, startX, halfW));
+            maxH = Math.max(0, field('Reason for stay in the ULB:', d.reason_ulb, startX, halfW));
             y = rowY;
-            maxH = Math.max(maxH, field('Stay:', d.stay, startX + halfW + 5, halfW));
+            maxH = Math.max(maxH, field('Stay:', d.stay_type, startX + halfW + 5, halfW));
             y = rowY + maxH + pad;
+            
             y += field('Remarks / Special Attention:', d.remarks, startX, fullW, true) + pad + 10;
+            
             pdf.setFontSize(10);
             pdf.setFont('helvetica', 'bold');
             pdf.setTextColor(0);
             pdf.text('Signature / Thumb Impression', startX, y);
             pdf.line(startX, y + 8, startX + 80, y + 8);
             y += 15;
+            
             pdf.setDrawColor(50);
             pdf.setLineWidth(0.5);
             pdf.line(startX, y, endX, y);
             y += 6;
+            
             rowY = y;
             maxH = Math.max(0, field('Name of the Shelter:', d.shelter, startX, halfW));
             y = rowY;
             maxH = Math.max(maxH, field('Location:', d.shelterLoc, startX + halfW + 5, halfW));
             y = rowY + maxH + pad;
+            
             rowY = y;
             maxH = Math.max(0, field('Name of the ULB:', d.ulb, startX, halfW));
             y = rowY;
             maxH = Math.max(maxH, field('Shelter Management Agency Name:', d.agency, startX + halfW + 5, halfW));
             y = rowY + maxH + pad;
+            
             setHeader();
             pdf.text('Office Use', startX, y + 4);
             y += 8;
             rowY = y;
             maxH = Math.max(0, field('Ward No:', d.ward, startX, 40));
+            
             pdf.setFontSize(9);
             pdf.setFont('helvetica', 'bold');
             pdf.setTextColor(50);
             pdf.text('Signature of the surveyor', startX + 60, rowY + 3);
             pdf.line(startX + 60, rowY + 12, startX + 130, rowY + 12);
+            
             pdf.save('beneficiary_form_with_photo.pdf');
         }
     </script>
