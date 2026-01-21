@@ -75,27 +75,126 @@
       </div>
     </div>
 
-    <!-- Search Card -->
+    <!-- Search & Filter Card -->
     <div class="card surface mb-4">
       <div class="card-body">
-        <form method="GET" action="/beneficiaries/view" class="row g-2 align-items-center">
-          <div class="col-12 col-md-9">
-            <input
-              type="text"
-              name="search"
-              class="form-control search-input"
-              placeholder="Search by beneficiary name…"
-              value="<%= searchQuery %>"
-            />
-          </div>
-          <div class="col-12 col-md-3 d-grid">
-            <button class="btn btn-dark btn-pill">Search</button>
+        <form method="GET" action="/beneficiaries/view" id="filterForm">
+          <div class="row g-3">
+            <!-- Name Search -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Beneficiary Name</label>
+              <input
+                type="text"
+                name="search"
+                class="form-control search-input"
+                placeholder="Search by name…"
+                value="<%= searchQuery %>"
+              />
+            </div>
+
+            <!-- Gender Filter -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Gender</label>
+              <select name="gender" class="form-select search-input">
+                <option value="">All Genders</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <!-- Marital Status Filter -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Marital Status</label>
+              <select name="marital_status" class="form-select search-input">
+                <option value="">All Status</option>
+                <option value="Single">Single</option>
+                <option value="Married">Married</option>
+                <option value="Divorced">Divorced</option>
+                <option value="Widowed">Widowed</option>
+              </select>
+            </div>
+
+            <!-- Education Filter -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Education</label>
+              <input
+                type="text"
+                name="education"
+                class="form-control search-input"
+                placeholder="Filter by education…"
+              />
+            </div>
+
+            <!-- Location Filter -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Location</label>
+              <input
+                type="text"
+                name="location"
+                class="form-control search-input"
+                placeholder="Filter by location…"
+              />
+            </div>
+
+            <!-- Health Status Filter -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Health Status</label>
+              <input
+                type="text"
+                name="health_status"
+                class="form-control search-input"
+                placeholder="Filter by health status…"
+              />
+            </div>
+
+            <!-- Stay Type Filter -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Stay Type</label>
+              <input
+                type="text"
+                name="stay_type"
+                class="form-control search-input"
+                placeholder="Filter by stay type…"
+              />
+            </div>
+
+            <!-- Age Range -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Min Age</label>
+              <input
+                type="number"
+                name="min_age"
+                class="form-control search-input"
+                placeholder="Min age"
+                min="0"
+              />
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Max Age</label>
+              <input
+                type="number"
+                name="max_age"
+                class="form-control search-input"
+                placeholder="Max age"
+                min="0"
+              />
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="col-12">
+              <div class="d-flex gap-2 justify-content-end">
+                <a href="/beneficiaries/view" class="btn btn-outline-secondary btn-pill">Clear Filters</a>
+                <button type="submit" class="btn btn-dark btn-pill">Apply Filters</button>
+              </div>
+            </div>
           </div>
         </form>
 
         <div class="d-flex justify-content-between flex-wrap gap-2 mt-3">
           <div class="text-muted small">
-            Tip: try searching by partial name.
+            Tip: Use multiple filters to narrow down results.
           </div>
           <div class="soft-badge">
             Results: <span class="fw-semibold"><%= beneficiaries ? beneficiaries.length : 0 %></span>

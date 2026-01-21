@@ -73,14 +73,60 @@ exports.addBeneficiary = async (req, res) => {
     }
 };
 exports.viewBeneficiaries = async (req, res) => {
-    const searchQuery = req.query.search || ""; // get search input
+    const searchQuery = req.query.search || "";
+    const gender = req.query.gender || "";
+    const marital_status = req.query.marital_status || "";
+    const education = req.query.education || "";
+    const location = req.query.location || "";
+    const health_status = req.query.health_status || "";
+    const stay_type = req.query.stay_type || "";
+    const min_age = req.query.min_age || "";
+    const max_age = req.query.max_age || "";
+    
     try {
         let sql = "SELECT id, beneficiary_name, guardian_name, age, gender, education, marital_status, children_count, location, health_status, occupation_id, occupation_place, reference_name, reference_address, contact_no, stay_type, remarks, photo FROM beneficiaries";
         let params = [];
+        let conditions = [];
 
         if (searchQuery) {
-            sql += " WHERE beneficiary_name LIKE ?";
+            conditions.push("beneficiary_name LIKE ?");
             params.push(`%${searchQuery}%`);
+        }
+        if (gender) {
+            conditions.push("gender = ?");
+            params.push(gender);
+        }
+        if (marital_status) {
+            conditions.push("marital_status = ?");
+            params.push(marital_status);
+        }
+        if (education) {
+            conditions.push("education LIKE ?");
+            params.push(`%${education}%`);
+        }
+        if (location) {
+            conditions.push("location LIKE ?");
+            params.push(`%${location}%`);
+        }
+        if (health_status) {
+            conditions.push("health_status LIKE ?");
+            params.push(`%${health_status}%`);
+        }
+        if (stay_type) {
+            conditions.push("stay_type LIKE ?");
+            params.push(`%${stay_type}%`);
+        }
+        if (min_age) {
+            conditions.push("age >= ?");
+            params.push(min_age);
+        }
+        if (max_age) {
+            conditions.push("age <= ?");
+            params.push(max_age);
+        }
+
+        if (conditions.length > 0) {
+            sql += " WHERE " + conditions.join(" AND ");
         }
 
         const [rows] = await db.query(sql, params);
@@ -115,13 +161,59 @@ exports.downloadPhoto = async (req, res) => {
 // Edit Beneficiary - Show List
 exports.showEditList = async (req, res) => {
     const searchQuery = req.query.search || "";
+    const gender = req.query.gender || "";
+    const marital_status = req.query.marital_status || "";
+    const education = req.query.education || "";
+    const location = req.query.location || "";
+    const health_status = req.query.health_status || "";
+    const stay_type = req.query.stay_type || "";
+    const min_age = req.query.min_age || "";
+    const max_age = req.query.max_age || "";
+    
     try {
         let sql = "SELECT id, beneficiary_name, guardian_name, age, gender, education, marital_status, children_count, location, health_status, occupation_id, occupation_place, reference_name, reference_address, contact_no, stay_type, remarks FROM beneficiaries";
         let params = [];
+        let conditions = [];
 
         if (searchQuery) {
-            sql += " WHERE beneficiary_name LIKE ?";
+            conditions.push("beneficiary_name LIKE ?");
             params.push(`%${searchQuery}%`);
+        }
+        if (gender) {
+            conditions.push("gender = ?");
+            params.push(gender);
+        }
+        if (marital_status) {
+            conditions.push("marital_status = ?");
+            params.push(marital_status);
+        }
+        if (education) {
+            conditions.push("education LIKE ?");
+            params.push(`%${education}%`);
+        }
+        if (location) {
+            conditions.push("location LIKE ?");
+            params.push(`%${location}%`);
+        }
+        if (health_status) {
+            conditions.push("health_status LIKE ?");
+            params.push(`%${health_status}%`);
+        }
+        if (stay_type) {
+            conditions.push("stay_type LIKE ?");
+            params.push(`%${stay_type}%`);
+        }
+        if (min_age) {
+            conditions.push("age >= ?");
+            params.push(min_age);
+        }
+        if (max_age) {
+            conditions.push("age <= ?");
+            params.push(max_age);
+        }
+
+        if (conditions.length > 0) {
+            sql += " WHERE " + conditions.join(" AND ");
         }
 
         const [rows] = await db.query(sql, params);

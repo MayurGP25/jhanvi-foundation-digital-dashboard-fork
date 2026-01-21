@@ -45,21 +45,127 @@
       </div>
     </div>
 
+    <!-- Search & Filter Card -->
     <div class="card surface mb-4">
       <div class="card-body">
-        <form method="GET" action="/beneficiaries/edit" class="row g-2 align-items-center">
-          <div class="col-12 col-md-9">
-            <input
-              type="text"
-              name="search"
-              class="form-control"
-              placeholder="Search by Beneficiary Name"
-              value="<%= searchQuery %>"
-              style="border-radius:12px;"
-            />
-          </div>
-          <div class="col-12 col-md-3 d-grid">
-            <button class="btn btn-dark btn-pill">Search</button>
+        <form method="GET" action="/beneficiaries/edit" id="filterForm">
+          <div class="row g-3">
+            <!-- Name Search -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Beneficiary Name</label>
+              <input
+                type="text"
+                name="search"
+                class="form-control"
+                placeholder="Search by name…"
+                value="<%= searchQuery %>"
+                style="border-radius:12px;"
+              />
+            </div>
+
+            <!-- Gender Filter -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Gender</label>
+              <select name="gender" class="form-select" style="border-radius:12px;">
+                <option value="">All Genders</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <!-- Marital Status Filter -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Marital Status</label>
+              <select name="marital_status" class="form-select" style="border-radius:12px;">
+                <option value="">All Status</option>
+                <option value="Single">Single</option>
+                <option value="Married">Married</option>
+                <option value="Divorced">Divorced</option>
+                <option value="Widowed">Widowed</option>
+              </select>
+            </div>
+
+            <!-- Education Filter -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Education</label>
+              <input
+                type="text"
+                name="education"
+                class="form-control"
+                placeholder="Filter by education…"
+                style="border-radius:12px;"
+              />
+            </div>
+
+            <!-- Location Filter -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Location</label>
+              <input
+                type="text"
+                name="location"
+                class="form-control"
+                placeholder="Filter by location…"
+                style="border-radius:12px;"
+              />
+            </div>
+
+            <!-- Health Status Filter -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Health Status</label>
+              <input
+                type="text"
+                name="health_status"
+                class="form-control"
+                placeholder="Filter by health status…"
+                style="border-radius:12px;"
+              />
+            </div>
+
+            <!-- Stay Type Filter -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Stay Type</label>
+              <input
+                type="text"
+                name="stay_type"
+                class="form-control"
+                placeholder="Filter by stay type…"
+                style="border-radius:12px;"
+              />
+            </div>
+
+            <!-- Age Range -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Min Age</label>
+              <input
+                type="number"
+                name="min_age"
+                class="form-control"
+                placeholder="Min age"
+                min="0"
+                style="border-radius:12px;"
+              />
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Max Age</label>
+              <input
+                type="number"
+                name="max_age"
+                class="form-control"
+                placeholder="Max age"
+                min="0"
+                style="border-radius:12px;"
+              />
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="col-12">
+              <div class="d-flex gap-2 justify-content-end">
+                <a href="/beneficiaries/edit" class="btn btn-outline-secondary btn-pill">Clear Filters</a>
+                <button type="submit" class="btn btn-dark btn-pill">Apply Filters</button>
+              </div>
+            </div>
           </div>
         </form>
       </div>
