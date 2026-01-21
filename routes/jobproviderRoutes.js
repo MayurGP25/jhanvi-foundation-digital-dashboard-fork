@@ -27,7 +27,7 @@ router.get("/view", requireLogin, jobProvider.viewJobProviders);
 // =========================
 router.get("/edit/:id", requireLogin, jobProvider.showEditForm);
 router.post("/edit/:id", requireLogin, jobProvider.updateJobProvider);
- 
+
 // =========================
 //  Delete Job Provider
 // =========================

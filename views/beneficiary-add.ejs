@@ -321,8 +321,8 @@
         </div>
         <div class="form-row" style="margin-top: 40px; justify-content: center;">
             <button class="submit-btn primary-action" style="width: 50%; justify-content: center;" onclick="submitForm()">
-                <span>Submit Registration</span>
-            </button>
+    <span>Submit Registration</span>
+</button>
         </div>
     </div>
     <script>
@@ -343,8 +343,8 @@
             const name = document.getElementById('name').value;
             if (!name.trim()) {
                 alert("Please enter the Beneficiary Name.");
-                return;
-            }
+            return;
+        }
             alert("Registration Submitted Successfully! Downloading copy...");
             generatePDF();
         }

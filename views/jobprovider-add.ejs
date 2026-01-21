@@ -1,260 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= jobProvider ? 'Edit' : 'Add' %> Job Provider</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #eef2f5;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        #form-container {
-            background-color: white;
-            width: 90%;
-            max-width: 800px;
-            padding: 30px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-            box-sizing: border-box;
-            position: relative;
-            border-radius: 8px;
-        }
-        h2 {
-            margin: 0 0 5px 0;
-            color: #333;
-            font-size: 24pt;
-            text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .form-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .back-btn {
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 14px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        .back-btn:hover {
-            background-color: #5a6268;
-            transform: translateY(-1px);
-        }
-        .form-row {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-            align-items: flex-end;
-        }
-        .form-field {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .form-field.full {
-            flex: 0 0 100%;
-        }
-        label {
-            font-weight: 700;
-            margin-bottom: 5px;
-            color: #333;
-            font-size: 13pt;
-        }
-        input, textarea, select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-family: inherit;
-            background-color: #fcfcfc;
-            font-size: 12pt;
-            transition: border-color 0.3s;
-        }
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #2c3e50;
-            background-color: #f0f8ff;
-        }
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        .action-bar {
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-        .submit-btn {
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            font-weight: bold;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        .submit-btn:hover {
-            background-color: #219150;
-            transform: translateY(-1px);
-        }
-        .cancel-btn {
-            background-color: #95a5a6;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        .cancel-btn:hover {
-            background-color: #7f8c8d;
-            transform: translateY(-1px);
-        }
-        .section-header {
-            font-weight: bold;
-            font-size: 14pt;
-            margin-top: 20px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #2c3e50;
-            padding-bottom: 5px;
-        }
-        .form-row.full-width {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        .form-row.full-width .form-field {
-            flex: 0 0 auto;
-            min-width: 120px;
-        }
-        .form-row.full-width .form-field label {
-            white-space: nowrap;
-        }
-        .form-row.full-width .form-field-input {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-    </style>
-</head>
-<body>
-    <div id="form-container">
-        <div class="form-header">
-            <h2 style="margin: 0;"><%= jobProvider ? 'Edit' : 'Add' %> Job Provider</h2>
-            <a href="/jobproviders/menu" class="back-btn">⬅ Back</a>
-        </div>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= jobProvider ? 'Edit' : 'Add' %> Job Provider</title>
 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    body { background: radial-gradient(circle at top left, #e3f2fd, #f5f7fb); min-height: 100vh; }
+    .app-header { backdrop-filter: blur(8px); background: rgba(15, 23, 42, 0.92); }
+    .surface { border: none; border-radius: 18px; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12); }
+    .btn-pill { border-radius: 999px; }
+    .section-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      color: #0f172a;
+      margin-top: 1.25rem;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.45);
+    }
+    .form-control, .form-select, textarea { border-radius: 12px; }
+    textarea { min-height: 110px; }
+    .help { font-size: .85rem; color: #6c757d; }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-dark app-header shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-semibold" href="/dashboard">NGO Digital Dashboard</a>
+      <div class="d-flex gap-2">
+        <a href="/jobproviders/menu" class="btn btn-outline-light btn-sm btn-pill">Back</a>
+        <a href="/logout" class="btn btn-outline-light btn-sm btn-pill">Sign Out</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
+      <div>
+        <h1 class="fw-bold mb-1"><%= jobProvider ? 'Edit' : 'Add' %> Job Provider</h1>
+        <p class="text-muted mb-0">Maintain partner organization details and assigned job types.</p>
+      </div>
+    </div>
+
+    <div class="card surface">
+      <div class="card-body p-4 p-md-5">
         <form id="jobProviderForm" method="POST" action="<%= jobProvider ? `/jobproviders/edit/${jobProvider.id}` : '/jobproviders/add' %>">
 
-            <!-- Organization Information -->
-            <div class="section-header">📊 Organization Information</div>
+          <div class="section-title">Organization</div>
 
-            <div class="form-row">
-                <div class="form-field">
-                    <label for="provider_name">Provider Name *</label>
-                    <input type="text" id="provider_name" name="provider_name"
-                        value="<%= jobProvider ? jobProvider.provider_name : '' %>" required>
-                </div>
-                <div class="form-field">
-                    <label for="contact_person">Contact Person *</label>
-                    <input type="text" id="contact_person" name="contact_person"
-                        value="<%= jobProvider ? jobProvider.contact_person : '' %>" required>
-                </div>
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <label class="form-label fw-semibold">Provider Name *</label>
+              <input type="text" class="form-control" name="provider_name" value="<%= jobProvider ? jobProvider.provider_name : '' %>" required />
             </div>
 
-            <div class="form-row">
-                <div class="form-field">
-                    <label for="phone">Phone *</label>
-                    <input type="tel" id="phone" name="phone" pattern="[0-9]*" placeholder="Enter numbers only"
-                        value="<%= jobProvider ? jobProvider.phone : '' %>" required>
-                </div>
-                <div class="form-field">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="example@domain.com"
-                        value="<%= jobProvider ? jobProvider.email : '' %>">
-                </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label fw-semibold">Contact Person *</label>
+              <input type="text" class="form-control" name="contact_person" value="<%= jobProvider ? jobProvider.contact_person : '' %>" required />
             </div>
 
-            <!-- Address Information -->
-            <div class="section-header">📍 Address Information</div>
-
-            <div class="form-row full-width">
-                <div class="form-field">
-                    <label for="address">Address *</label>
-                </div>
-                <div class="form-field-input">
-                    <input type="text" id="address" name="address"
-                        value="<%= jobProvider ? jobProvider.address : '' %>" required>
-                </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label fw-semibold">Phone *</label>
+              <input type="tel" class="form-control" name="phone" pattern="[0-9]*" placeholder="Numbers only" value="<%= jobProvider ? jobProvider.phone : '' %>" required />
             </div>
 
-            <div class="form-row">
-                <div class="form-field">
-                    <label for="city">City *</label>
-                    <input type="text" id="city" name="city"
-                        value="<%= jobProvider ? jobProvider.city : '' %>" required>
-                </div>
-                <div class="form-field">
-                    <label for="state">State *</label>
-                    <input type="text" id="state" name="state"
-                        value="<%= jobProvider ? jobProvider.state : '' %>" required>
-                </div>
-                <div class="form-field">
-                    <label for="pincode">Pincode *</label>
-                    <input type="text" id="pincode" name="pincode"
-                        value="<%= jobProvider ? jobProvider.pincode : '' %>" required>
-                </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label fw-semibold">Email</label>
+              <input type="email" class="form-control" name="email" placeholder="example@domain.com" value="<%= jobProvider ? jobProvider.email : '' %>" />
+            </div>
+          </div>
+
+          <div class="section-title">Job Types</div>
+
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label fw-semibold">Select Job Types</label>
+              <select class="form-select" name="job_type_ids" multiple size="6">
+                <% jobTypes.forEach((jt) => { %>
+                  <option value="<%= jt.id %>" <%= selectedJobTypeIds && selectedJobTypeIds.includes(jt.id) ? 'selected' : '' %>>
+                    <%= jt.job_type_name %>
+                  </option>
+                <% }) %>
+              </select>
+              <div class="help mt-2">Hold Ctrl/Cmd to select multiple types.</div>
+            </div>
+          </div>
+
+          <div class="section-title">Address</div>
+
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label fw-semibold">Address *</label>
+              <input type="text" class="form-control" name="address" value="<%= jobProvider ? jobProvider.address : '' %>" required />
             </div>
 
-            <!-- Additional Information -->
-            <div class="section-header">📝 Additional Information</div>
-
-            <div class="form-row full-width">
-                <div class="form-field">
-                    <label for="notes">Notes</label>
-                </div>
-                <div class="form-field-input">
-                    <textarea id="notes" name="notes"><%= jobProvider ? jobProvider.notes : '' %></textarea>
-                </div>
+            <div class="col-12 col-md-4">
+              <label class="form-label fw-semibold">City *</label>
+              <input type="text" class="form-control" name="city" value="<%= jobProvider ? jobProvider.city : '' %>" required />
             </div>
 
-        </form>
+            <div class="col-12 col-md-4">
+              <label class="form-label fw-semibold">State *</label>
+              <input type="text" class="form-control" name="state" value="<%= jobProvider ? jobProvider.state : '' %>" required />
+            </div>
 
-        <div class="action-bar">
-            <button type="submit" form="jobProviderForm" class="submit-btn">
-                💾 <%= jobProvider ? 'Update' : 'Save' %>
+            <div class="col-12 col-md-4">
+              <label class="form-label fw-semibold">Pincode *</label>
+              <input type="text" class="form-control" name="pincode" value="<%= jobProvider ? jobProvider.pincode : '' %>" required />
+            </div>
+          </div>
+
+          <div class="section-title">Additional Notes</div>
+
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label fw-semibold">Notes</label>
+              <textarea class="form-control" name="notes"><%= jobProvider ? jobProvider.notes : '' %></textarea>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column flex-sm-row gap-2 justify-content-end mt-4">
+            <a href="/jobproviders/menu" class="btn btn-outline-secondary btn-pill">Cancel</a>
+            <button type="submit" class="btn btn-success btn-pill">
+              <%= jobProvider ? 'Update Provider' : 'Save Provider' %>
             </button>
-            <a href="/jobproviders/menu" class="cancel-btn">❌ Cancel</a>
-        </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
