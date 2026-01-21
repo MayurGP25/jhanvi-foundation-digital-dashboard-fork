@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>NGO Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/styles.css" rel="stylesheet">
-
-    <!-- Disable back button after logout -->
-    <script>
-        window.history.forward();
-        function noBack() { window.history.forward(); }
-    </script>
+    <title>NGO Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+ 
+    <!-- Disable back button after logout -->
+    <script>
+        window.history.forward();
+        function noBack() { window.history.forward(); }
+    </script>
 </head>
-
+ 
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
-
+ 
 <div class="container text-center" style="margin-top: 80px;">
-
-    <h1 class="mb-4 fw-bold">NGO DASHBOARD</h1>
-    <p class="mb-5">Welcome, <strong><%= user.email %></strong></p>
-
-    <!-- Management Buttons -->
-    <div class="d-flex flex-column flex-md-row justify-content-center gap-4">
-
-        <a href="/beneficiaries/menu" class="btn btn-primary btn-lg px-5 py-4" style="border-radius: 30px;">
-            Beneficiary Management
-        </a>
-
-        <a href="#" class="btn btn-success btn-lg px-5 py-4" style="border-radius: 30px;">
-            Job Provider Management
-        </a>
-
-        <a href="#" class="btn btn-warning btn-lg px-5 py-4" style="border-radius: 30px;">
-            Job Matching Management
-        </a>
-
-    </div>
-
-    <!-- Logout Button -->
-    <div class="mt-5">
-        <a href="/logout" class="btn btn-danger btn-lg" style="border-radius: 30px;">
-            Sign Out
-        </a>
-    </div>
-
+ 
+    <h1 class="mb-4 fw-bold">NGO DASHBOARD</h1>
+    <p class="mb-5">Welcome, <strong><%= user.email %></strong></p>
+ 
+    <!-- Management Buttons -->
+    <div class="d-flex flex-column flex-md-row justify-content-center gap-4">
+ 
+        <a href="/beneficiaries/menu" class="btn btn-primary btn-lg px-5 py-4" style="border-radius: 30px;">
+            Beneficiary Management
+        </a>
+ 
+        <a href="/jobproviders/menu" class="btn btn-success btn-lg px-5 py-4" style="border-radius: 30px;">
+            Job Provider Management
+        </a>
+ 
+        <a href="#" class="btn btn-warning btn-lg px-5 py-4" style="border-radius: 30px;">
+            Job Matching Management
+        </a>
+ 
+    </div>
+ 
+    <!-- Logout Button -->
+    <div class="mt-5">
+        <a href="/logout" class="btn btn-danger btn-lg" style="border-radius: 30px;">
+            Sign Out
+        </a>
+    </div>
+ 
 </div>
-
+ 
 </body>
 </html>

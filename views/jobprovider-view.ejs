@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>View Job Providers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        window.history.forward();
+        function noBack() { window.history.forward(); }
+    </script>
+</head>
+ 
+<body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
+<body class="bg-light">
+ 
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Job Providers List</h2>
+        <!-- Logout Button -->
+        <a href="/logout" class="btn btn-danger">Logout</a>
+    </div>
+ 
+    <!-- Search Form -->
+    <form method="GET" action="/jobproviders/view" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Search by Provider Name or Contact Person" value="<%= searchQuery %>">
+            <button class="btn btn-primary">Search</button>
+        </div>
+    </form>
+ 
+    <!-- Job Providers Table -->
+    <table class="table table-bordered table-striped bg-white">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Provider Name</th>
+                <th>Contact Person</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (jobProviders.length === 0) { %>
+                <tr>
+                    <td colspan="8" class="text-center">No records found.</td>
+                </tr>
+            <% } %>
+ 
+            <% jobProviders.forEach((jp, index) => { %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= jp.provider_name %></td>
+                    <td><%= jp.contact_person %></td>
+                    <td><%= jp.phone %></td>
+                    <td><%= jp.email %></td>
+                    <td><%= jp.city %></td>
+                    <td><%= jp.state %></td>
+                    <td>
+                        <a href="/jobproviders/edit/<%= jp.id %>" class="btn btn-sm btn-warning">Edit</a>
+                        <form method="POST" action="/jobproviders/delete/<%= jp.id %>" style="display:inline;" onsubmit="return confirm('Are you sure?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+<div class="d-flex justify-content-center mt-3">
+    <a href="/jobproviders/menu" class="btn btn-outline-secondary me-2 btn-lg">Back</a>
+</div>
+ 
+</div>
+ 
+</body>
+</html>
