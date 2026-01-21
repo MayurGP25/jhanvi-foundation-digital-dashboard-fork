@@ -75,6 +75,22 @@
             color: #777;
             padding: 5px;
         }
+        .is-invalid {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+        .photo-upload-container.is-invalid {
+            border-color: #dc3545 !important;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        .error-message.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -111,6 +127,7 @@
                                     Click to upload passport photo<br>(35mm × 45mm)
                                 </div>
                             </div>
+                            <div class="error-message" id="photoInput-error">Photo is required</div>
                         </div>
                     </div>
 
@@ -119,14 +136,17 @@
                         <div class="col-12">
                             <label class="form-label fw-semibold">Name (Beneficiary Name) *</label>
                             <input type="text" class="form-control" id="beneficiary_name" name="beneficiary_name" placeholder="Enter Full Name" required>
+                            <div class="error-message" id="beneficiary_name-error">Beneficiary Name is required</div>
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-semibold">Name of Father/Mother/Husband</label>
                             <input type="text" class="form-control" id="guardian_name" name="guardian_name" placeholder="Enter Relative's Name">
+                            <div class="error-message" id="guardian_name-error">Name of Father/Mother/Husband is required</div>
                         </div>
                         <div class="col-12 col-md-3">
                             <label class="form-label fw-semibold">Age</label>
                             <input type="number" class="form-control" id="age" name="age" placeholder="Years">
+                            <div class="error-message" id="age-error">Age is required</div>
                         </div>
                         <div class="col-12 col-md-3">
                             <label class="form-label fw-semibold">Gender</label>
@@ -135,10 +155,12 @@
                                 <option value="Female">Female</option>
                                 <option value="Other">Other</option>
                             </select>
+                            <div class="error-message" id="gender-error">Gender is required</div>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label fw-semibold">Education</label>
                             <input type="text" class="form-control" id="education" name="education" placeholder="e.g. 10th Pass">
+                            <div class="error-message" id="education-error">Education is required</div>
                         </div>
                         <div class="col-12 col-md-4">
                             <label class="form-label fw-semibold">Marital Status</label>
@@ -148,26 +170,32 @@
                                 <option value="Divorced">Divorced</option>
                                 <option value="Widowed">Widowed</option>
                             </select>
+                            <div class="error-message" id="marital_status-error">Marital Status is required</div>
                         </div>
                         <div class="col-12 col-md-4">
                             <label class="form-label fw-semibold">No. of Children</label>
                             <input type="number" class="form-control" id="children_count" name="children_count" value="0">
+                            <div class="error-message" id="children_count-error">No. of Children is required</div>
                         </div>
                         <div class="col-12 col-md-4">
                             <label class="form-label fw-semibold">Identification Mark</label>
                             <input type="text" class="form-control" id="id_mark" name="id_mark" placeholder="e.g. Mole on cheek">
+                            <div class="error-message" id="id_mark-error">Identification Mark is required</div>
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-semibold">Location / Whereabouts</label>
                             <input type="text" class="form-control" id="location" name="location" placeholder="Current staying location">
+                            <div class="error-message" id="location-error">Location / Whereabouts is required</div>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label fw-semibold">Health Status</label>
                             <input type="text" class="form-control" id="health_status" name="health_status" placeholder="e.g. Good, Sick">
+                            <div class="error-message" id="health_status-error">Health Status is required</div>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label fw-semibold">Habits</label>
                             <input type="text" class="form-control" id="habits" name="habits" placeholder="e.g. Smoking, None">
+                            <div class="error-message" id="habits-error">Habits is required</div>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label fw-semibold">Occupation (Select)</label>
@@ -177,10 +205,12 @@
                                 <% }); %>
                             </select>
                             <div class="help mt-1">Hold Ctrl/Cmd to select multiple types.</div>
+                            <div class="error-message" id="occupation_id-error">Occupation is required - please select at least one option</div>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label fw-semibold">Place of Occupation</label>
                             <input type="text" class="form-control" id="occupation_place" name="occupation_place">
+                            <div class="error-message" id="occupation_place-error">Place of Occupation is required</div>
                         </div>
                     </div>
 
@@ -189,18 +219,22 @@
                         <div class="col-12 col-md-6">
                             <label class="form-label fw-semibold">Reference Person Name</label>
                             <input type="text" class="form-control" id="reference_name" name="reference_name">
+                            <div class="error-message" id="reference_name-error">Reference Person Name is required</div>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label fw-semibold">Reference Address</label>
                             <input type="text" class="form-control" id="reference_address" name="reference_address">
+                            <div class="error-message" id="reference_address-error">Reference Address is required</div>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label fw-semibold">Contact Number</label>
                             <input type="tel" class="form-control" id="contact_no" name="contact_no">
+                            <div class="error-message" id="contact_no-error">Contact Number is required</div>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label fw-semibold">Reason for ULB Stay</label>
                             <input type="text" class="form-control" id="reason_ulb" name="reason_ulb">
+                            <div class="error-message" id="reason_ulb-error">Reason for ULB Stay is required</div>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label fw-semibold">Stay Type</label>
@@ -208,53 +242,60 @@
                                 <option value="Permanent">Permanent</option>
                                 <option value="Temporary">Temporary</option>
                             </select>
+                            <div class="error-message" id="stay_type-error">Stay Type is required</div>
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-semibold">Remarks / Special Attention</label>
                             <textarea class="form-control" id="remarks" name="remarks" rows="3" placeholder="Any special notes..."></textarea>
+                            <div class="error-message" id="remarks-error">Remarks / Special Attention is required</div>
                         </div>
                     </div>
 
                     <div class="section-title">Signature</div>
                     <div class="row g-3">
-                        <div class="col-12">
+                        <div class="col-12 col-md-6">
                             <label class="form-label fw-semibold">Signature / Thumb Impression</label>
                             <div style="border: 1px solid #dee2e6; border-radius: 12px; padding: 40px; text-align: center; background-color: #f8f9fa;">
                                 <small class="text-muted">Place signature or thumb impression here</small>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="section-title">Office & Shelter Details</div>
-                    <div class="row g-3">
                         <div class="col-12 col-md-6">
-                            <label class="form-label fw-semibold">Name of the Shelter</label>
-                            <input type="text" class="form-control" id="shelterName">
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label class="form-label fw-semibold">Location</label>
-                            <input type="text" class="form-control" id="shelterLocation">
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label class="form-label fw-semibold">Name of the ULB</label>
-                            <input type="text" class="form-control" id="ulbName" value="Municipal Corporation">
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label class="form-label fw-semibold">Shelter Management Agency Name</label>
-                            <input type="text" class="form-control" id="agencyName">
+                            <label class="form-label fw-semibold">Signature of the Surveyor</label>
+                            <div style="border: 1px solid #dee2e6; border-radius: 12px; padding: 40px; background-color: #f8f9fa;"></div>
                         </div>
                     </div>
 
                     <div class="section-title">Office Use Only</div>
                     <div class="row g-3">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Name of the Shelter</label>
+                            <input type="text" class="form-control" id="shelterName">
+                            <div class="error-message" id="shelterName-error">Name of the Shelter is required</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Location</label>
+                            <input type="text" class="form-control" id="shelterLocation">
+                            <div class="error-message" id="shelterLocation-error">Shelter Location is required</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold">Name of the ULB</label>
+                            <input type="text" class="form-control" id="ulbName" value="Municipal Corporation">
+                            <div class="error-message" id="ulbName-error">Name of the ULB is required</div>
+                        </div>
+                        <div class="col-12 col-md-6">
                             <label class="form-label fw-semibold">Ward No</label>
                             <input type="text" class="form-control" id="wardNo">
+                            <div class="error-message" id="wardNo-error">Ward No is required</div>
                         </div>
-                        <div class="col-12 col-md-8">
-                            <label class="form-label fw-semibold">Signature of the Surveyor</label>
-                            <div style="border: 1px solid #dee2e6; border-radius: 12px; padding: 30px; background-color: #f8f9fa;"></div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-12 col-md-12">
+                            <label class="form-label fw-semibold">Shelter Management Agency Name</label>
+                            <input type="text" class="form-control" id="agencyName">
+                            <div class="error-message" id="agencyName-error">Shelter Management Agency Name is required</div>
                         </div>
+                        
                     </div>
 
                     <div class="d-flex flex-column flex-sm-row gap-2 justify-content-end mt-4">
@@ -271,6 +312,129 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         let uploadedPhotoData = null;
+        
+        // Form validation before submission
+        document.getElementById('beneficiaryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const requiredFields = [
+                { id: 'photoInput', label: 'Photo', type: 'file' },
+                { id: 'beneficiary_name', label: 'Beneficiary Name' },
+                { id: 'guardian_name', label: 'Name of Father/Mother/Husband' },
+                { id: 'age', label: 'Age' },
+                { id: 'gender', label: 'Gender' },
+                { id: 'education', label: 'Education' },
+                { id: 'marital_status', label: 'Marital Status' },
+                { id: 'children_count', label: 'No. of Children' },
+                { id: 'id_mark', label: 'Identification Mark' },
+                { id: 'location', label: 'Location / Whereabouts' },
+                { id: 'health_status', label: 'Health Status' },
+                { id: 'habits', label: 'Habits' },
+                { id: 'occupation_id', label: 'Occupation', type: 'select' },
+                { id: 'occupation_place', label: 'Place of Occupation' },
+                { id: 'reference_name', label: 'Reference Person Name' },
+                { id: 'reference_address', label: 'Reference Address' },
+                { id: 'contact_no', label: 'Contact Number' },
+                { id: 'reason_ulb', label: 'Reason for ULB Stay' },
+                { id: 'stay_type', label: 'Stay Type' },
+                { id: 'remarks', label: 'Remarks / Special Attention' },
+                { id: 'shelterName', label: 'Name of the Shelter' },
+                { id: 'shelterLocation', label: 'Shelter Location' },
+                { id: 'ulbName', label: 'Name of the ULB' },
+                { id: 'agencyName', label: 'Shelter Management Agency Name' },
+                { id: 'wardNo', label: 'Ward No' }
+            ];
+            
+            let isValid = true;
+            let firstInvalidField = null;
+            
+            // Clear all previous error messages
+            document.querySelectorAll('.error-message').forEach(msg => {
+                msg.classList.remove('show');
+            });
+            
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field.id);
+                const errorMsg = document.getElementById(`${field.id}-error`);
+                
+                let fieldInvalid = false;
+                
+                if (field.type === 'file') {
+                    if (!element.files || element.files.length === 0) {
+                        fieldInvalid = true;
+                    }
+                } else if (field.type === 'select') {
+                    if (!element.selectedOptions || element.selectedOptions.length === 0) {
+                        fieldInvalid = true;
+                    }
+                } else {
+                    if (!element.value || element.value.trim() === '') {
+                        fieldInvalid = true;
+                    }
+                }
+                
+                if (fieldInvalid) {
+                    isValid = false;
+                    element.classList.add('is-invalid');
+                    if (field.id === 'photoInput') {
+                        document.querySelector('.photo-upload-container').classList.add('is-invalid');
+                    }
+                    if (errorMsg) {
+                        errorMsg.classList.add('show');
+                    }
+                    if (!firstInvalidField) {
+                        firstInvalidField = element;
+                    }
+                } else {
+                    element.classList.remove('is-invalid');
+                    if (field.id === 'photoInput') {
+                        document.querySelector('.photo-upload-container').classList.remove('is-invalid');
+                    }
+                    if (errorMsg) {
+                        errorMsg.classList.remove('show');
+                    }
+                }
+            });
+            
+            if (!isValid) {
+                // Scroll to first invalid field
+                if (firstInvalidField) {
+                    firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(() => firstInvalidField.focus(), 500);
+                }
+                return false;
+            }
+            
+            // If validation passes, submit the form
+            this.submit();
+        });
+        
+        // Real-time validation on input change
+        const allInputs = document.querySelectorAll('#beneficiaryForm input, #beneficiaryForm select, #beneficiaryForm textarea');
+        allInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                const errorMsg = document.getElementById(`${this.id}-error`);
+                if (this.value && this.value.trim() !== '') {
+                    this.classList.remove('is-invalid');
+                    if (errorMsg) {
+                        errorMsg.classList.remove('show');
+                    }
+                }
+            });
+            
+            if (input.type === 'file') {
+                input.addEventListener('change', function() {
+                    const errorMsg = document.getElementById(`${this.id}-error`);
+                    if (this.files && this.files.length > 0) {
+                        document.querySelector('.photo-upload-container').classList.remove('is-invalid');
+                        if (errorMsg) {
+                            errorMsg.classList.remove('show');
+                        }
+                    }
+                });
+            }
+        });
+        
         function handlePhotoUpload(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -323,30 +487,45 @@
             const startX = 20;
             const endX = 190;
             const fullW = endX - startX;
+            const halfW = (fullW - 5) / 2;
             let y = 20; 
-            const fieldH = 7;
-            const pad = 4;
-            const setLabel = () => { pdf.setFont('helvetica', 'bold'); pdf.setFontSize(9); pdf.setTextColor(50); };
-            const setValue = () => { pdf.setFont('helvetica', 'normal'); pdf.setFontSize(10); pdf.setTextColor(0); };
+            const lineSpacing = 8;
+            const pad = 2;
+            const setLabel = () => { pdf.setFont('helvetica', 'bold'); pdf.setFontSize(9); pdf.setTextColor(0); };
+            const setValue = () => { pdf.setFont('helvetica', 'normal'); pdf.setFontSize(9); pdf.setTextColor(0); };
             const setHeader = () => { pdf.setFont('helvetica', 'bold'); pdf.setFontSize(11); pdf.setTextColor(0); };
             
             function field(label, value, x, w, multi = false) {
                 setLabel();
+                const labelWidth = pdf.getTextWidth(label) + 2;
                 pdf.text(label, x, y);
+                
                 setValue();
-                pdf.setDrawColor(150);
-                pdf.setLineWidth(0.1);
-                let h = fieldH;
+                pdf.setDrawColor(100);
+                pdf.setLineWidth(0.3);
+                pdf.setLineDash([1, 1]);
+                
                 if (multi) {
-                    const lines = pdf.splitTextToSize(value || '', w - 4);
-                    h = Math.max(fieldH, lines.length * 5 + 4);
-                    pdf.rect(x, y + 2, w, h);
-                    pdf.text(lines, x + 2, y + 2 + 4);
+                    const availableWidth = w - labelWidth;
+                    const lines = pdf.splitTextToSize(value || '', availableWidth - 2);
+                    pdf.text(lines[0] || '', x + labelWidth, y);
+                    pdf.line(x + labelWidth, y + 1, x + w, y + 1);
+                    
+                    if (lines.length > 1) {
+                        y += 5;
+                        for (let i = 1; i < lines.length; i++) {
+                            pdf.text(lines[i], x, y);
+                            pdf.line(x, y + 1, x + w, y + 1);
+                            if (i < lines.length - 1) y += 5;
+                        }
+                    }
+                    y += 6;
                 } else {
-                    pdf.rect(x, y + 2, w, h);
-                    pdf.text(String(value || ''), x + 2, y + 2 + 5);
+                    pdf.text(String(value || ''), x + labelWidth, y);
+                    pdf.line(x + labelWidth, y + 1, x + w, y + 1);
+                    y += lineSpacing;
                 }
-                return h + 4;
+                pdf.setLineDash([]);
             }
             
             pdf.setFontSize(16);
@@ -373,91 +552,172 @@
                 pdf.text('Photo', photoX + (photoW/2), y + (photoH/2), { align: 'center' });
             }
             
-            y += 20;
-            y += field('Name:', d.beneficiary_name, startX, fullW - 40) + pad;
-            y += field('Name of Father/Mother/Husband:', d.guardian_name, startX, fullW - 40) + pad;
+            y += 55;
+            field('Name:', d.beneficiary_name, startX, fullW);
+            field('Name of Father/Mother/Husband:', d.guardian_name, startX, fullW);
             
-            let rowY = y;
-            let maxH = 0;
-            const col3 = (fullW - 10) / 3;
-            maxH = Math.max(maxH, field('Age:', d.age, startX, col3));
-            y = rowY; 
-            maxH = Math.max(maxH, field('Gender:', d.gender, startX + col3 + 5, col3));
-            y = rowY;
-            maxH = Math.max(maxH, field('Qualification:', d.education, startX + (col3 * 2) + 10, col3));
-            y = rowY + maxH + pad;
+            // Age and Gender on same line
+            let tempY = y;
+            setLabel();
+            const ageLabel = 'Age:';
+            const ageLabelWidth = pdf.getTextWidth(ageLabel) + 2;
+            pdf.text(ageLabel, startX, y);
+            setValue();
+            pdf.text(String(d.age || ''), startX + ageLabelWidth, y);
+            pdf.setLineDash([1, 1]);
+            pdf.line(startX + ageLabelWidth, y + 1, startX + halfW, y + 1);
             
-            rowY = y;
-            maxH = 0;
-            maxH = Math.max(maxH, field('Marital Status:', d.marital_status, startX, col3));
-            y = rowY;
-            maxH = Math.max(maxH, field('No of Children:', d.children_count, startX + col3 + 5, col3));
-            y = rowY;
-            maxH = Math.max(maxH, field('Personal Identification Mark:', d.id_mark, startX + (col3 * 2) + 10, col3));
-            y = rowY + maxH + pad;
+            setLabel();
+            const genderLabel = 'Gender:';
+            const genderLabelWidth = pdf.getTextWidth(genderLabel) + 2;
+            pdf.text(genderLabel, startX + halfW + 5, tempY);
+            setValue();
+            pdf.text(String(d.gender || ''), startX + halfW + 5 + genderLabelWidth, tempY);
+            pdf.line(startX + halfW + 5 + genderLabelWidth, tempY + 1, endX, tempY + 1);
+            pdf.setLineDash([]);
+            y += lineSpacing;
             
-            y += field('Location/Whereabouts:', d.location, startX, fullW) + pad;
+            // Qualification full width
+            field('Qualification:', d.education, startX, fullW);
             
-            rowY = y;
-            const halfW = (fullW - 5) / 2;
-            maxH = Math.max(0, field('Occupation/Activity:', d.occupation_id, startX, halfW));
-            y = rowY;
-            maxH = Math.max(maxH, field('Place of Occupation/Activity:', d.occupation_place, startX + halfW + 5, halfW));
-            y = rowY + maxH + pad;
+            // Marital Status and No of Children on same line
+            tempY = y;
+            setLabel();
+            const maritalLabel = 'Marital Status:';
+            const maritalLabelWidth = pdf.getTextWidth(maritalLabel) + 2;
+            pdf.text(maritalLabel, startX, y);
+            setValue();
+            pdf.text(String(d.marital_status || ''), startX + maritalLabelWidth, y);
+            pdf.setLineDash([1, 1]);
+            pdf.line(startX + maritalLabelWidth, y + 1, startX + halfW, y + 1);
             
-            const refCombined = (d.reference_name || '') + (d.reference_address ? ', ' + d.reference_address : '');
-            y += field('Reference persons Name & Address:', refCombined, startX, fullW, true) + pad;
-            y += field('Phone No:', d.contact_no, startX, halfW) + pad;
+            setLabel();
+            const childLabel = 'No of Children:';
+            const childLabelWidth = pdf.getTextWidth(childLabel) + 2;
+            pdf.text(childLabel, startX + halfW + 5, tempY);
+            setValue();
+            pdf.text(String(d.children_count || ''), startX + halfW + 5 + childLabelWidth, tempY);
+            pdf.line(startX + halfW + 5 + childLabelWidth, tempY + 1, endX, tempY + 1);
+            pdf.setLineDash([]);
+            y += lineSpacing;
             
-            rowY = y;
-            maxH = Math.max(0, field('Health Status:', d.health_status, startX, halfW));
-            y = rowY;
-            maxH = Math.max(maxH, field('Habits:', d.habits, startX + halfW + 5, halfW));
-            y = rowY + maxH + pad;
+            // Personal Identification Mark full width
+            field('Personal Identification Mark:', d.id_mark, startX, fullW);
             
-            rowY = y;
-            maxH = Math.max(0, field('Reason for stay in the ULB:', d.reason_ulb, startX, halfW));
-            y = rowY;
-            maxH = Math.max(maxH, field('Stay:', d.stay_type, startX + halfW + 5, halfW));
-            y = rowY + maxH + pad;
+            field('Location/Whereabouts:', d.location, startX, fullW, true);
+            field('Occupation/Activity:', d.occupation_id, startX, fullW, true);
+            field('Place of Occupation/Activity:', d.occupation_place, startX, fullW, true);
+            field('Reference Person Name:', d.reference_name, startX, fullW);
+            field('Reference Address:', d.reference_address, startX, fullW);
+            field('Contact Number:', d.contact_no, startX, fullW);
             
-            y += field('Remarks / Special Attention:', d.remarks, startX, fullW, true) + pad + 10;
+            tempY = y;
+            setLabel();
+            const healthLabel = 'Health Status:';
+            const healthLabelWidth = pdf.getTextWidth(healthLabel) + 2;
+            pdf.text(healthLabel, startX, y);
+            setValue();
+            pdf.text(String(d.health_status || ''), startX + healthLabelWidth, y);
+            pdf.setLineDash([1, 1]);
+            pdf.line(startX + healthLabelWidth, y + 1, startX + halfW, y + 1);
             
-            pdf.setFontSize(10);
+            setLabel();
+            const habitsLabel = 'Habits:';
+            const habitsLabelWidth = pdf.getTextWidth(habitsLabel) + 2;
+            pdf.text(habitsLabel, startX + halfW + 5, tempY);
+            setValue();
+            pdf.text(String(d.habits || ''), startX + halfW + 5 + habitsLabelWidth, tempY);
+            pdf.line(startX + halfW + 5 + habitsLabelWidth, tempY + 1, endX, tempY + 1);
+            pdf.setLineDash([]);
+            y += lineSpacing;
+            
+            tempY = y;
+            setLabel();
+            const reasonLabel = 'Reason for stay in the ULB:';
+            const reasonLabelWidth = pdf.getTextWidth(reasonLabel) + 2;
+            pdf.text(reasonLabel, startX, y);
+            setValue();
+            pdf.text(String(d.reason_ulb || ''), startX + reasonLabelWidth, y);
+            pdf.setLineDash([1, 1]);
+            pdf.line(startX + reasonLabelWidth, y + 1, startX + halfW, y + 1);
+            
+            setLabel();
+            const stayLabel = 'Stay:';
+            const stayLabelWidth = pdf.getTextWidth(stayLabel) + 2;
+            pdf.text(stayLabel, startX + halfW + 5, tempY);
+            setValue();
+            pdf.text(String(d.stay_type || ''), startX + halfW + 5 + stayLabelWidth, tempY);
+            pdf.line(startX + halfW + 5 + stayLabelWidth, tempY + 1, endX, tempY + 1);
+            pdf.setLineDash([]);
+            y += lineSpacing;
+            
+            field('Remarks / Special Attention:', d.remarks, startX, fullW, true);
+            y += 3;
+            
+            // Signatures side by side
+            tempY = y;
+            pdf.setFontSize(9);
             pdf.setFont('helvetica', 'bold');
             pdf.setTextColor(0);
-            pdf.text('Signature / Thumb Impression', startX, y);
-            pdf.line(startX, y + 8, startX + 80, y + 8);
-            y += 15;
+            pdf.text('Signature / Thumb Impression', startX, tempY);
+            pdf.setLineDash([1, 1]);
+            pdf.line(startX, tempY + 3, startX + 80, tempY + 3);
+            
+            pdf.text('Signature of the surveyor', startX + 90, tempY);
+            pdf.line(startX + 90, tempY + 3, endX, tempY + 3);
+            pdf.setLineDash([]);
+            y += 10;
             
             pdf.setDrawColor(50);
             pdf.setLineWidth(0.5);
             pdf.line(startX, y, endX, y);
-            y += 6;
-            
-            rowY = y;
-            maxH = Math.max(0, field('Name of the Shelter:', d.shelter, startX, halfW));
-            y = rowY;
-            maxH = Math.max(maxH, field('Location:', d.shelterLoc, startX + halfW + 5, halfW));
-            y = rowY + maxH + pad;
-            
-            rowY = y;
-            maxH = Math.max(0, field('Name of the ULB:', d.ulb, startX, halfW));
-            y = rowY;
-            maxH = Math.max(maxH, field('Shelter Management Agency Name:', d.agency, startX + halfW + 5, halfW));
-            y = rowY + maxH + pad;
+            y += 5;
             
             setHeader();
-            pdf.text('Office Use', startX, y + 4);
-            y += 8;
-            rowY = y;
-            maxH = Math.max(0, field('Ward No:', d.ward, startX, 40));
+            pdf.text('Office Use', startX, y);
+            y += 5;
             
-            pdf.setFontSize(9);
-            pdf.setFont('helvetica', 'bold');
-            pdf.setTextColor(50);
-            pdf.text('Signature of the surveyor', startX + 60, rowY + 3);
-            pdf.line(startX + 60, rowY + 12, startX + 130, rowY + 12);
+            tempY = y;
+            setLabel();
+            const shelterLabel = 'Name of the Shelter:';
+            const shelterLabelWidth = pdf.getTextWidth(shelterLabel) + 2;
+            pdf.text(shelterLabel, startX, y);
+            setValue();
+            pdf.text(String(d.shelter || ''), startX + shelterLabelWidth, y);
+            pdf.setLineDash([1, 1]);
+            pdf.line(startX + shelterLabelWidth, y + 1, startX + halfW, y + 1);
+            
+            setLabel();
+            const locLabel = 'Location:';
+            const locLabelWidth = pdf.getTextWidth(locLabel) + 2;
+            pdf.text(locLabel, startX + halfW + 5, tempY);
+            setValue();
+            pdf.text(String(d.shelterLoc || ''), startX + halfW + 5 + locLabelWidth, tempY);
+            pdf.line(startX + halfW + 5 + locLabelWidth, tempY + 1, endX, tempY + 1);
+            pdf.setLineDash([]);
+            y += lineSpacing + 1;
+            
+            tempY = y;
+            setLabel();
+            const ulbLabel = 'Name of the ULB:';
+            const ulbLabelWidth = pdf.getTextWidth(ulbLabel) + 2;
+            pdf.text(ulbLabel, startX, y);
+            setValue();
+            pdf.text(String(d.ulb || ''), startX + ulbLabelWidth, y);
+            pdf.setLineDash([1, 1]);
+            pdf.line(startX + ulbLabelWidth, y + 1, startX + halfW, y + 1);
+            
+            setLabel();
+            const wardLabel = 'Ward No:';
+            const wardLabelWidth = pdf.getTextWidth(wardLabel) + 2;
+            pdf.text(wardLabel, startX + halfW + 5, tempY);
+            setValue();
+            pdf.text(String(d.ward || ''), startX + halfW + 5 + wardLabelWidth, tempY);
+            pdf.line(startX + halfW + 5 + wardLabelWidth, tempY + 1, endX, tempY + 1);
+            pdf.setLineDash([]);
+            y += lineSpacing + 1;
+            
+            field('Shelter Management Agency Name:', d.agency, startX, fullW);
             
             pdf.save('beneficiary_form_with_photo.pdf');
         }
