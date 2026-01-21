@@ -75,7 +75,7 @@ exports.addBeneficiary = async (req, res) => {
 exports.viewBeneficiaries = async (req, res) => {
     const searchQuery = req.query.search || ""; // get search input
     try {
-        let sql = "SELECT id, beneficiary_name, guardian_name, age, gender, location, contact_no, photo FROM beneficiaries";
+        let sql = "SELECT id, beneficiary_name, guardian_name, age, gender, education, marital_status, children_count, location, health_status, occupation_id, occupation_place, reference_name, reference_address, contact_no, stay_type, remarks, photo FROM beneficiaries";
         let params = [];
 
         if (searchQuery) {
@@ -116,7 +116,7 @@ exports.downloadPhoto = async (req, res) => {
 exports.showEditList = async (req, res) => {
     const searchQuery = req.query.search || "";
     try {
-        let sql = "SELECT id, beneficiary_name, guardian_name, age, gender, location, contact_no FROM beneficiaries";
+        let sql = "SELECT id, beneficiary_name, guardian_name, age, gender, education, marital_status, children_count, location, health_status, occupation_id, occupation_place, reference_name, reference_address, contact_no, stay_type, remarks FROM beneficiaries";
         let params = [];
 
         if (searchQuery) {

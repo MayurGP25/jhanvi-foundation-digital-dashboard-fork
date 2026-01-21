@@ -71,20 +71,28 @@
           <table class="table table-hover align-middle mb-0">
             <thead class="table-dark">
               <tr>
-                <th style="width:70px;">#</th>
+                <th style="width:50px;">#</th>
                 <th>Beneficiary Name</th>
                 <th>Guardian Name</th>
-                <th style="width:80px;">Age</th>
-                <th>Gender</th>
+                <th style="width:60px;">Age</th>
+                <th style="width:90px;">Gender</th>
+                <th>Education</th>
+                <th style="width:110px;">Marital Status</th>
+                <th style="width:80px;">Children</th>
                 <th>Location</th>
-                <th style="width:140px;">Contact No</th>
+                <th>Health Status</th>
+                <th>Occupation</th>
+                <th style="width:120px;">Contact No</th>
+                <th>Reference</th>
+                <th style="width:100px;">Stay Type</th>
+                <th>Remarks</th>
                 <th class="text-end" style="width:170px;">Actions</th>
               </tr>
             </thead>
             <tbody>
               <% if (beneficiaries.length === 0) { %>
                 <tr>
-                  <td colspan="8" class="text-center py-5 text-muted">No records found.</td>
+                  <td colspan="16" class="text-center py-5 text-muted">No records found.</td>
                 </tr>
               <% } %>
 
@@ -92,11 +100,37 @@
                 <tr>
                   <td><%= index + 1 %></td>
                   <td class="fw-semibold"><%= ben.beneficiary_name %></td>
-                  <td><%= ben.guardian_name %></td>
-                  <td><%= ben.age %></td>
-                  <td><%= ben.gender %></td>
-                  <td><%= ben.location %></td>
-                  <td><%= ben.contact_no %></td>
+                  <td><%= ben.guardian_name || '-' %></td>
+                  <td><%= (ben.age === null || typeof ben.age === 'undefined') ? '-' : ben.age %></td>
+                  <td><%= ben.gender || '-' %></td>
+                  <td><%= ben.education || '-' %></td>
+                  <td><%= ben.marital_status || '-' %></td>
+                  <td><%= (ben.children_count === null || typeof ben.children_count === 'undefined') ? '-' : ben.children_count %></td>
+                  <td><%= ben.location || '-' %></td>
+                  <td><%= ben.health_status || '-' %></td>
+                  <td>
+                    <% if (ben.occupation_id || ben.occupation_place) { %>
+                      <div class="small">
+                        <% if (ben.occupation_id) { %><div><%= ben.occupation_id %></div><% } %>
+                        <% if (ben.occupation_place) { %><div class="text-muted"><%= ben.occupation_place %></div><% } %>
+                      </div>
+                    <% } else { %>
+                      -
+                    <% } %>
+                  </td>
+                  <td><%= ben.contact_no || '-' %></td>
+                  <td>
+                    <% if (ben.reference_name || ben.reference_address) { %>
+                      <div class="small">
+                        <% if (ben.reference_name) { %><div><%= ben.reference_name %></div><% } %>
+                        <% if (ben.reference_address) { %><div class="text-muted"><%= ben.reference_address %></div><% } %>
+                      </div>
+                    <% } else { %>
+                      -
+                    <% } %>
+                  </td>
+                  <td><%= ben.stay_type || '-' %></td>
+                  <td><%= ben.remarks || '-' %></td>
                   <td class="text-end">
                     <a href="/beneficiaries/edit/<%= ben.id %>" class="btn btn-sm btn-warning btn-pill">Edit</a>
                     <form method="POST" action="/beneficiaries/delete/<%= ben.id %>" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this beneficiary?');">
