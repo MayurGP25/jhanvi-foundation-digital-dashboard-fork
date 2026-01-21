@@ -1,49 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>NGO Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/styles.css" rel="stylesheet">
- 
-    <!-- Disable back button after logout -->
-    <script>
-        window.history.forward();
-        function noBack() { window.history.forward(); }
-    </script>
+    <title>NGO Digital Dashboard</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="/css/styles.css" rel="stylesheet" />
+
+    <!-- Disable back button after logout -->
+    <script>
+        window.history.forward();
+        function noBack() { window.history.forward(); }
+    </script>
+
+    <style>
+        body {
+            background: radial-gradient(circle at top left, #e3f2fd, #f5f7fb);
+            min-height: 100vh;
+        }
+        .app-shell {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .app-header {
+            backdrop-filter: blur(8px);
+            background: rgba(15, 23, 42, 0.92);
+        }
+        .app-title {
+            font-size: 1.6rem;
+            letter-spacing: 0.03em;
+        }
+        .page-heading {
+            font-size: 2rem;
+        }
+        .page-subtitle {
+            font-size: 0.95rem;
+            color: #6c757d;
+        }
+        .card-dashboard {
+            border: none;
+            border-radius: 20px;
+            padding: 1.75rem 1.75rem;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, translate 0.18s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-dashboard::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent 55%);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        .card-dashboard:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.18);
+        }
+        .card-dashboard:hover::after {
+            opacity: 1;
+        }
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .card-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        .card-footer-link {
+            font-size: 0.9rem;
+        }
+        .btn-pill {
+            border-radius: 999px;
+        }
+        @media (max-width: 767.98px) {
+            .page-heading {
+                font-size: 1.6rem;
+            }
+        }
+        a.card-link {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
 </head>
- 
+
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
- 
-<div class="container text-center" style="margin-top: 80px;">
- 
-    <h1 class="mb-4 fw-bold">NGO DASHBOARD</h1>
-    <p class="mb-5">Welcome, <strong><%= user.email %></strong></p>
- 
-    <!-- Management Buttons -->
-    <div class="d-flex flex-column flex-md-row justify-content-center gap-4">
- 
-        <a href="/beneficiaries/menu" class="btn btn-primary btn-lg px-5 py-4" style="border-radius: 30px;">
-            Beneficiary Management
-        </a>
- 
-        <a href="/jobproviders/menu" class="btn btn-success btn-lg px-5 py-4" style="border-radius: 30px;">
-            Job Provider Management
-        </a>
- 
-        <a href="#" class="btn btn-warning btn-lg px-5 py-4" style="border-radius: 30px;">
-            Job Matching Management
-        </a>
- 
-    </div>
- 
-    <!-- Logout Button -->
-    <div class="mt-5">
-        <a href="/logout" class="btn btn-danger btn-lg" style="border-radius: 30px;">
-            Sign Out
-        </a>
-    </div>
- 
+<div class="app-shell">
+
+    <!-- Top App Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark app-header shadow-sm">
+        <div class="container">
+            <span class="navbar-brand app-title fw-semibold">
+                NGO Digital Dashboard
+            </span>
+
+            <div class="ms-auto d-flex align-items-center gap-2">
+                <a href="/logout" class="btn btn-outline-light btn-sm btn-pill">
+                    Sign Out
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow-1">
+        <div class="container py-5">
+
+            <!-- Page Heading -->
+            <div class="mb-5 text-center text-md-start">
+                <h1 class="page-heading fw-bold mb-2">Welcome to the Operations Hub</h1>
+                <p class="page-subtitle mb-0">
+                    Manage beneficiaries, job providers, and intelligent job matching from one unified dashboard.
+                </p>
+            </div>
+
+            <!-- Management Cards -->
+            <div class="row g-4">
+
+                <!-- Beneficiary Management -->
+                <div class="col-12 col-md-4">
+                    <a href="/beneficiaries/menu" class="card-link">
+                        <div class="card-dashboard bg-white h-100">
+                            <div class="d-flex align-items-start justify-content-between mb-3">
+                                <div class="card-icon bg-primary bg-opacity-10 text-primary">
+                                    <span>👥</span>
+                                </div>
+                                <span class="badge rounded-pill text-bg-primary">
+                                    Core
+                                </span>
+                            </div>
+                            <h2 class="card-title mb-2">Beneficiary Management</h2>
+                            <p class="card-text mb-3">
+                                Capture and maintain detailed beneficiary records, profiles, and lifecycle
+                                information in one place.
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center card-footer-link">
+                                <span class="fw-semibold text-primary">Open module</span>
+                                <span class="text-muted">→</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Job Provider Management -->
+                <div class="col-12 col-md-4">
+                    <a href="/jobproviders/menu" class="card-link">
+                        <div class="card-dashboard bg-white h-100">
+                            <div class="d-flex align-items-start justify-content-between mb-3">
+                                <div class="card-icon bg-success bg-opacity-10 text-success">
+                                    <span>🏢</span>
+                                </div>
+                                <span class="badge rounded-pill text-bg-success">
+                                    Partners
+                                </span>
+                            </div>
+                            <h2 class="card-title mb-2">Job Provider Management</h2>
+                            <p class="card-text mb-3">
+                                Register organizations, define job types, and maintain contact details for
+                                every hiring partner.
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center card-footer-link">
+                                <span class="fw-semibold text-success">Open module</span>
+                                <span class="text-muted">→</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Job Matching Management -->
+                <div class="col-12 col-md-4">
+                    <a href="/jobmatching" class="card-link">
+                        <div class="card-dashboard bg-white h-100">
+                            <div class="d-flex align-items-start justify-content-between mb-3">
+                                <div class="card-icon bg-warning bg-opacity-10 text-warning">
+                                    <span>💼</span>
+                                </div>
+                                <span class="badge rounded-pill text-bg-warning text-dark">
+                                    Matching
+                                </span>
+                            </div>
+                            <h2 class="card-title mb-2">Job Matching Management</h2>
+                            <p class="card-text mb-3">
+                                Discover recommended beneficiaries for open roles and record successful
+                                placements with rich context.
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center card-footer-link">
+                                <span class="fw-semibold text-warning">Open module</span>
+                                <span class="text-muted">→</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </main>
 </div>
- 
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

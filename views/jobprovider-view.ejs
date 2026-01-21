@@ -1,77 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>View Job Providers</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script>
-        window.history.forward();
-        function noBack() { window.history.forward(); }
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Job Providers</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <script>
+    window.history.forward();
+    function noBack() { window.history.forward(); }
+  </script>
+
+  <style>
+    body { background: radial-gradient(circle at top left, #e3f2fd, #f5f7fb); min-height: 100vh; }
+    .app-header { backdrop-filter: blur(8px); background: rgba(15, 23, 42, 0.92); }
+    .surface { border: none; border-radius: 18px; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12); }
+    .btn-pill { border-radius: 999px; }
+    .table thead th { border-bottom: none; }
+    .table-hover tbody tr:hover { background: #f2f5ff; }
+  </style>
 </head>
- 
+
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
-<body class="bg-light">
- 
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">Job Providers List</h2>
-        <!-- Logout Button -->
-        <a href="/logout" class="btn btn-danger">Logout</a>
-    </div>
- 
-    <!-- Search Form -->
-    <form method="GET" action="/jobproviders/view" class="mb-4">
-        <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Search by Provider Name or Contact Person" value="<%= searchQuery %>">
-            <button class="btn btn-primary">Search</button>
-        </div>
-    </form>
- 
-    <!-- Job Providers Table -->
-    <table class="table table-bordered table-striped bg-white">
-        <thead class="table-dark">
-            <tr>
-                <th>#</th>
-                <th>Provider Name</th>
-                <th>Contact Person</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% if (jobProviders.length === 0) { %>
-                <tr>
-                    <td colspan="8" class="text-center">No records found.</td>
-                </tr>
-            <% } %>
- 
-            <% jobProviders.forEach((jp, index) => { %>
-                <tr>
-                    <td><%= index + 1 %></td>
-                    <td><%= jp.provider_name %></td>
-                    <td><%= jp.contact_person %></td>
-                    <td><%= jp.phone %></td>
-                    <td><%= jp.email %></td>
-                    <td><%= jp.city %></td>
-                    <td><%= jp.state %></td>
-                    <td>
-                        <a href="/jobproviders/edit/<%= jp.id %>" class="btn btn-sm btn-warning">Edit</a>
-                        <form method="POST" action="/jobproviders/delete/<%= jp.id %>" style="display:inline;" onsubmit="return confirm('Are you sure?');">
-                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
-<div class="d-flex justify-content-center mt-3">
-    <a href="/jobproviders/menu" class="btn btn-outline-secondary me-2 btn-lg">Back</a>
-</div>
- 
-</div>
- 
+  <nav class="navbar navbar-dark app-header shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-semibold" href="/dashboard">NGO Digital Dashboard</a>
+      <div class="d-flex gap-2">
+        <a href="/jobproviders/menu" class="btn btn-outline-light btn-sm btn-pill">Back</a>
+        <a href="/logout" class="btn btn-outline-light btn-sm btn-pill">Sign Out</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
+      <div>
+        <h1 class="fw-bold mb-1">Job Providers</h1>
+        <p class="text-muted mb-0">Search, edit and manage job provider partners.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="/jobproviders/add" class="btn btn-primary btn-pill">Add Provider</a>
+        <a href="/jobmatching" class="btn btn-outline-secondary btn-pill">Job Matching</a>
+      </div>
+    </div>
+
+    <div class="card surface mb-4">
+      <div class="card-body">
+        <form method="GET" action="/jobproviders/view" class="row g-2 align-items-center">
+          <div class="col-12 col-md-9">
+            <input
+              type="text"
+              name="search"
+              class="form-control"
+              placeholder="Search by Provider Name or Contact Person"
+              value="<%= searchQuery %>"
+              style="border-radius:12px;"
+            />
+          </div>
+          <div class="col-12 col-md-3 d-grid">
+            <button class="btn btn-dark btn-pill">Search</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="card surface">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+              <tr>
+                <th style="width:70px;">#</th>
+                <th>Provider Name</th>
+                <th>Contact Person</th>
+                <th style="width:140px;">Phone</th>
+                <th>Email</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Job Types</th>
+                <th class="text-end" style="width:170px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (jobProviders.length === 0) { %>
+                <tr>
+                  <td colspan="9" class="text-center py-5 text-muted">No records found.</td>
+                </tr>
+              <% } %>
+
+              <% jobProviders.forEach((jp, index) => { %>
+                <tr>
+                  <td><%= index + 1 %></td>
+                  <td class="fw-semibold"><%= jp.provider_name %></td>
+                  <td><%= jp.contact_person %></td>
+                  <td><%= jp.phone %></td>
+                  <td><%= jp.email || '-' %></td>
+                  <td><%= jp.city %></td>
+                  <td><%= jp.state %></td>
+                  <td><%= jp.job_types || '-' %></td>
+                  <td class="text-end">
+                    <a href="/jobproviders/edit/<%= jp.id %>" class="btn btn-sm btn-warning btn-pill">Edit</a>
+                    <form method="POST" action="/jobproviders/delete/<%= jp.id %>" style="display:inline;" onsubmit="return confirm('Are you sure?');">
+                      <button type="submit" class="btn btn-sm btn-outline-danger btn-pill">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
