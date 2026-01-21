@@ -26,7 +26,7 @@
         }
         .section-title {
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 1.6rem;
             letter-spacing: 0.02em;
             color: #0f172a;
             margin-top: 1.25rem;
@@ -117,9 +117,24 @@
             <div class="card-body p-4 p-md-5">
                 <form id="beneficiaryForm" method="POST" action="/beneficiaries/add" enctype="multipart/form-data">
                     
-                    <div class="section-title">Photo</div>
-                    <div class="row g-3 mb-3">
-                        <div class="col-12">
+                    <div class="section-title">Personal Information</div>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-9">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Name (Beneficiary Name) *</label>
+                                    <input type="text" class="form-control" id="beneficiary_name" name="beneficiary_name" placeholder="Enter Full Name" required>
+                                    <div class="error-message" id="beneficiary_name-error">Beneficiary Name is required</div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Name of Father/Mother/Husband</label>
+                                    <input type="text" class="form-control" id="guardian_name" name="guardian_name" placeholder="Enter Relative's Name">
+                                    <div class="error-message" id="guardian_name-error">Name of Father/Mother/Husband is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <label class="form-label fw-semibold">Photo</label>
                             <div class="photo-upload-container" onclick="document.getElementById('photoInput').click()">
                                 <input type="file" id="photoInput" name="photo" accept="image/*" style="display: none;" onchange="handlePhotoUpload(this)">
                                 <img id="photoPreview" class="photo-preview" src="" alt="Beneficiary Photo">
@@ -128,20 +143,6 @@
                                 </div>
                             </div>
                             <div class="error-message" id="photoInput-error">Photo is required</div>
-                        </div>
-                    </div>
-
-                    <div class="section-title">Personal Information</div>
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <label class="form-label fw-semibold">Name (Beneficiary Name) *</label>
-                            <input type="text" class="form-control" id="beneficiary_name" name="beneficiary_name" placeholder="Enter Full Name" required>
-                            <div class="error-message" id="beneficiary_name-error">Beneficiary Name is required</div>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label fw-semibold">Name of Father/Mother/Husband</label>
-                            <input type="text" class="form-control" id="guardian_name" name="guardian_name" placeholder="Enter Relative's Name">
-                            <div class="error-message" id="guardian_name-error">Name of Father/Mother/Husband is required</div>
                         </div>
                         <div class="col-12 col-md-3">
                             <label class="form-label fw-semibold">Age</label>
@@ -250,8 +251,7 @@
                             <div class="error-message" id="remarks-error">Remarks / Special Attention is required</div>
                         </div>
                     </div>
-
-                    <div class="section-title">Signature</div>
+                    
                     <div class="row g-3">
                         <div class="col-12 col-md-6">
                             <label class="form-label fw-semibold">Signature / Thumb Impression</label>
