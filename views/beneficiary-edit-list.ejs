@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,12 +14,33 @@
   </script>
 
   <style>
-    body { background: radial-gradient(circle at top left, #e3f2fd, #f5f7fb); min-height: 100vh; }
-    .app-header { backdrop-filter: blur(8px); background: rgba(15, 23, 42, 0.92); }
-    .surface { border: none; border-radius: 18px; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12); }
-    .btn-pill { border-radius: 999px; }
-    .table thead th { border-bottom: none; }
-    .table-hover tbody tr:hover { background: #f2f5ff; }
+    body {
+      background: radial-gradient(circle at top left, #e3f2fd, #f5f7fb);
+      min-height: 100vh;
+    }
+
+    .app-header {
+      backdrop-filter: blur(8px);
+      background: rgba(15, 23, 42, 0.92);
+    }
+
+    .surface {
+      border: none;
+      border-radius: 18px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+    }
+
+    .btn-pill {
+      border-radius: 999px;
+    }
+
+    .table thead th {
+      border-bottom: none;
+    }
+
+    .table-hover tbody tr:hover {
+      background: #f2f5ff;
+    }
   </style>
 </head>
 
@@ -34,7 +56,8 @@
   </nav>
 
   <main class="container py-5">
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
+    <div
+      class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
       <div>
         <h1 class="fw-bold mb-1">Edit Beneficiaries</h1>
         <p class="text-muted mb-0">Search, edit and manage beneficiary records.</p>
@@ -53,14 +76,8 @@
             <!-- Name Search -->
             <div class="col-12 col-md-6 col-lg-4">
               <label class="form-label small fw-semibold">Beneficiary Name</label>
-              <input
-                type="text"
-                name="search"
-                class="form-control"
-                placeholder="Search by name…"
-                value="<%= searchQuery %>"
-                style="border-radius:12px;"
-              />
+              <input type="text" name="search" class="form-control" placeholder="Search by name…"
+                value="<%= searchQuery %>" style="border-radius:12px;" />
             </div>
 
             <!-- Gender Filter -->
@@ -68,9 +85,9 @@
               <label class="form-label small fw-semibold">Gender</label>
               <select name="gender" class="form-select" style="border-radius:12px;">
                 <option value="">All Genders</option>
-                <option value="Male" <%= filters && filters.gender === 'Male' ? 'selected' : '' %>>Male</option>
-                <option value="Female" <%= filters && filters.gender === 'Female' ? 'selected' : '' %>>Female</option>
-                <option value="Other" <%= filters && filters.gender === 'Other' ? 'selected' : '' %>>Other</option>
+                <option value="Male" <%=filters && filters.gender==='Male' ? 'selected' : '' %>>Male</option>
+                <option value="Female" <%=filters && filters.gender==='Female' ? 'selected' : '' %>>Female</option>
+                <option value="Other" <%=filters && filters.gender==='Other' ? 'selected' : '' %>>Other</option>
               </select>
             </div>
 
@@ -79,90 +96,68 @@
               <label class="form-label small fw-semibold">Marital Status</label>
               <select name="marital_status" class="form-select" style="border-radius:12px;">
                 <option value="">All Status</option>
-                <option value="Single" <%= filters && filters.marital_status === 'Single' ? 'selected' : '' %>>Single</option>
-                <option value="Married" <%= filters && filters.marital_status === 'Married' ? 'selected' : '' %>>Married</option>
-                <option value="Divorced" <%= filters && filters.marital_status === 'Divorced' ? 'selected' : '' %>>Divorced</option>
-                <option value="Widowed" <%= filters && filters.marital_status === 'Widowed' ? 'selected' : '' %>>Widowed</option>
+                <option value="Single" <%=filters && filters.marital_status==='Single' ? 'selected' : '' %>>Single
+                </option>
+                <option value="Married" <%=filters && filters.marital_status==='Married' ? 'selected' : '' %>>Married
+                </option>
+                <option value="Divorced" <%=filters && filters.marital_status==='Divorced' ? 'selected' : '' %>>Divorced
+                </option>
+                <option value="Widowed" <%=filters && filters.marital_status==='Widowed' ? 'selected' : '' %>>Widowed
+                </option>
               </select>
             </div>
 
             <!-- Education Filter -->
             <div class="col-12 col-md-6 col-lg-4">
               <label class="form-label small fw-semibold">Education</label>
-              <input
-                type="text"
-                name="education"
-                class="form-control"
-                placeholder="Filter by education…"
-                style="border-radius:12px;"
-                value="<%= filters && filters.education ? filters.education : '' %>"
-              />
+              <input type="text" name="education" class="form-control" placeholder="Filter by education…"
+                style="border-radius:12px;" value="<%= filters && filters.education ? filters.education : '' %>" />
             </div>
 
             <!-- Location Filter -->
             <div class="col-12 col-md-6 col-lg-4">
               <label class="form-label small fw-semibold">Location</label>
-              <input
-                type="text"
-                name="location"
-                class="form-control"
-                placeholder="Filter by location…"
-                style="border-radius:12px;"
-                value="<%= filters && filters.location ? filters.location : '' %>"
-              />
+              <input type="text" name="location" class="form-control" placeholder="Filter by location…"
+                style="border-radius:12px;" value="<%= filters && filters.location ? filters.location : '' %>" />
             </div>
 
             <!-- Health Status Filter -->
             <div class="col-12 col-md-6 col-lg-4">
               <label class="form-label small fw-semibold">Health Status</label>
-              <input
-                type="text"
-                name="health_status"
-                class="form-control"
-                placeholder="Filter by health status…"
+              <input type="text" name="health_status" class="form-control" placeholder="Filter by health status…"
                 style="border-radius:12px;"
-                value="<%= filters && filters.health_status ? filters.health_status : '' %>"
-              />
+                value="<%= filters && filters.health_status ? filters.health_status : '' %>" />
             </div>
 
             <!-- Stay Type Filter -->
             <div class="col-12 col-md-6 col-lg-4">
               <label class="form-label small fw-semibold">Stay Type</label>
-              <input
-                type="text"
-                name="stay_type"
-                class="form-control"
-                placeholder="Filter by stay type…"
-                style="border-radius:12px;"
-                value="<%= filters && filters.stay_type ? filters.stay_type : '' %>"
-              />
+              <input type="text" name="stay_type" class="form-control" placeholder="Filter by stay type…"
+                style="border-radius:12px;" value="<%= filters && filters.stay_type ? filters.stay_type : '' %>" />
             </div>
 
             <!-- Age Range -->
             <div class="col-12 col-md-6 col-lg-4">
               <label class="form-label small fw-semibold">Min Age</label>
-              <input
-                type="number"
-                name="min_age"
-                class="form-control"
-                placeholder="Min age"
-                min="0"
-                style="border-radius:12px;"
-                value="<%= filters && filters.min_age ? filters.min_age : '' %>"
-              />
+              <input type="number" name="min_age" class="form-control" placeholder="Min age" min="0"
+                style="border-radius:12px;" value="<%= filters && filters.min_age ? filters.min_age : '' %>" />
             </div>
 
             <div class="col-12 col-md-6 col-lg-4">
               <label class="form-label small fw-semibold">Max Age</label>
-              <input
-                type="number"
-                name="max_age"
-                class="form-control"
-                placeholder="Max age"
-                min="0"
-                style="border-radius:12px;"
-                value="<%= filters && filters.max_age ? filters.max_age : '' %>"
-              />
+              <input type="number" name="max_age" class="form-control" placeholder="Max age" min="0"
+                style="border-radius:12px;" value="<%= filters && filters.max_age ? filters.max_age : '' %>" />
+            </div>
+            <!-- Employment Status Filter -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label small fw-semibold">Employment Status</label>
+              <select name="employment_status" class="form-select" style="border-radius:12px;">
+                <option value="">All Status</option>
+                <option value="Unemployed" <%=filters && filters.employment_status==='Unemployed' ? 'selected' : '' %>
+                  >Unemployed</option>
+                <option value="Employed" <%=filters && filters.employment_status==='Employed' ? 'selected' : '' %>
+                  >Employed</option>
+              </select>
             </div>
 
             <!-- Action Buttons -->
@@ -196,61 +191,95 @@
                 <th>Occupation</th>
                 <th style="width:120px;">Contact No</th>
                 <th>Reference</th>
+                <th style="width:120px;">Employment Status</th>
                 <th style="width:100px;">Stay Type</th>
                 <th>Remarks</th>
                 <th class="text-end" style="width:170px;">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <% if (beneficiaries.length === 0) { %>
+              <% if (beneficiaries.length===0) { %>
                 <tr>
-                  <td colspan="16" class="text-center py-5 text-muted">No records found.</td>
+                  <td colspan="17" class="text-center py-5 text-muted">No records found.</td>
                 </tr>
-              <% } %>
+                <% } %>
 
-              <% beneficiaries.forEach((ben, index) => { %>
-                <tr>
-                  <td><%= index + 1 %></td>
-                  <td class="fw-semibold"><%= ben.beneficiary_name %></td>
-                  <td><%= ben.guardian_name || '-' %></td>
-                  <td><%= (ben.age === null || typeof ben.age === 'undefined') ? '-' : ben.age %></td>
-                  <td><%= ben.gender || '-' %></td>
-                  <td><%= ben.education || '-' %></td>
-                  <td><%= ben.marital_status || '-' %></td>
-                  <td><%= (ben.children_count === null || typeof ben.children_count === 'undefined') ? '-' : ben.children_count %></td>
-                  <td><%= ben.location || '-' %></td>
-                  <td><%= ben.health_status || '-' %></td>
-                  <td>
-                    <% if (ben.occupation_id || ben.occupation_place) { %>
-                      <div class="small">
-                        <% if (ben.occupation_id) { %><div><%= ben.occupation_id %></div><% } %>
-                        <% if (ben.occupation_place) { %><div class="text-muted"><%= ben.occupation_place %></div><% } %>
-                      </div>
-                    <% } else { %>
-                      -
-                    <% } %>
-                  </td>
-                  <td><%= ben.contact_no || '-' %></td>
-                  <td>
-                    <% if (ben.reference_name || ben.reference_address) { %>
-                      <div class="small">
-                        <% if (ben.reference_name) { %><div><%= ben.reference_name %></div><% } %>
-                        <% if (ben.reference_address) { %><div class="text-muted"><%= ben.reference_address %></div><% } %>
-                      </div>
-                    <% } else { %>
-                      -
-                    <% } %>
-                  </td>
-                  <td><%= ben.stay_type || '-' %></td>
-                  <td><%= ben.remarks || '-' %></td>
-                  <td class="text-end">
-                    <a href="/beneficiaries/edit/<%= ben.id %>" class="btn btn-sm btn-warning btn-pill">Edit</a>
-                    <form method="POST" action="/beneficiaries/delete/<%= ben.id %>" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this beneficiary?');">
-                      <button type="submit" class="btn btn-sm btn-outline-danger btn-pill">Delete</button>
-                    </form>
-                  </td>
-                </tr>
-              <% }) %>
+                  <% beneficiaries.forEach((ben, index)=> { %>
+                    <tr>
+                      <td>
+                        <%= index + 1 %>
+                      </td>
+                      <td class="fw-semibold">
+                        <%= ben.beneficiary_name %>
+                      </td>
+                      <td>
+                        <%= ben.guardian_name || '-' %>
+                      </td>
+                      <td>
+                        <%= (ben.age===null || typeof ben.age==='undefined' ) ? '-' : ben.age %>
+                      </td>
+                      <td>
+                        <%= ben.gender || '-' %>
+                      </td>
+                      <td>
+                        <%= ben.education || '-' %>
+                      </td>
+                      <td>
+                        <%= ben.marital_status || '-' %>
+                      </td>
+                      <td>
+                        <%= (ben.children_count===null || typeof ben.children_count==='undefined' ) ? '-' :
+                          ben.children_count %>
+                      </td>
+                      <td>
+                        <%= ben.location || '-' %>
+                      </td>
+                      <td>
+                        <%= ben.health_status || '-' %>
+                      </td>
+                      <td>
+                        <%= ben.job_type_name || '-' %>
+                      </td>
+                      </td>
+                      <td>
+                        <%= ben.contact_no || '-' %>
+                      </td>
+                      <td>
+                        <% if (ben.reference_name || ben.reference_address) { %>
+                          <div class="small">
+                            <% if (ben.reference_name) { %>
+                              <div>
+                                <%= ben.reference_name %>
+                              </div>
+                              <% } %>
+                                <% if (ben.reference_address) { %>
+                                  <div class="text-muted">
+                                    <%= ben.reference_address %>
+                                  </div>
+                                  <% } %>
+                          </div>
+                          <% } else { %>
+                            -
+                            <% } %>
+                      </td>
+                      <td>
+                        <%= ben.employment_status || 'Unemployed' %>
+                      </td>
+                      <td>
+                        <%= ben.stay_type || '-' %>
+                      </td>
+                      <td>
+                        <%= ben.remarks || '-' %>
+                      </td>
+                      <td class="text-end">
+                        <a href="/beneficiaries/edit/<%= ben.id %>" class="btn btn-sm btn-warning btn-pill">Edit</a>
+                        <form method="POST" action="/beneficiaries/delete/<%= ben.id %>" style="display:inline;"
+                          onsubmit="return confirm('Are you sure you want to delete this beneficiary?');">
+                          <button type="submit" class="btn btn-sm btn-outline-danger btn-pill">Delete</button>
+                        </form>
+                      </td>
+                    </tr>
+                    <% }) %>
             </tbody>
           </table>
         </div>
@@ -260,4 +289,5 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
