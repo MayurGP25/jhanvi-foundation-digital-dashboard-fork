@@ -27,7 +27,9 @@ exports.showAddFormPublic = async (req, res) => {
 };
 
 
-// Add Beneficiary
+// ...existing code...
+
+// --- Add Beneficiary ---
 exports.addBeneficiary = async (req, res) => {
     const {
         beneficiary_name,
@@ -48,7 +50,8 @@ exports.addBeneficiary = async (req, res) => {
         contact_no,
         reason_ulb,
         stay_type,
-        remarks
+        remarks,
+        employment_status // <-- ADD THIS
     } = req.body;
 
     const photo = req.file ? req.file.buffer : null;
@@ -58,11 +61,12 @@ exports.addBeneficiary = async (req, res) => {
             `INSERT INTO beneficiaries
             (beneficiary_name, guardian_name, age, gender, education, marital_status, children_count, id_mark,
              location, health_status, habits, occupation_id, occupation_place, reference_name, reference_address,
-             contact_no, reason_ulb, stay_type, remarks, photo)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+             contact_no, reason_ulb, stay_type, remarks, photo, employment_status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+
             [beneficiary_name, guardian_name, age, gender, education, marital_status, children_count, id_mark,
              location, health_status, habits, occupation_id, occupation_place, reference_name, reference_address,
-             contact_no, reason_ulb, stay_type, remarks, photo]
+             contact_no, reason_ulb, stay_type, remarks, photo, 'unemployed']
         );
 
         res.redirect("/beneficiaries/menu");
@@ -72,6 +76,8 @@ exports.addBeneficiary = async (req, res) => {
         res.send("Error adding beneficiary.");
     }
 };
+
+// --- View Beneficiaries ---
 exports.viewBeneficiaries = async (req, res) => {
     const searchQuery = req.query.search || "";
     const gender = req.query.gender || "";
@@ -82,9 +88,18 @@ exports.viewBeneficiaries = async (req, res) => {
     const stay_type = req.query.stay_type || "";
     const min_age = req.query.min_age || "";
     const max_age = req.query.max_age || "";
+    const employment_status = req.query.employment_status || "";
     
     try {
-        let sql = "SELECT id, beneficiary_name, guardian_name, age, gender, education, marital_status, children_count, location, health_status, occupation_id, occupation_place, reference_name, reference_address, contact_no, stay_type, remarks, photo FROM beneficiaries";
+      // ...existing code...
+let sql = `
+  SELECT b.id, b.beneficiary_name, b.guardian_name, b.age, b.gender, b.education, b.marital_status, b.children_count,
+         b.location, b.health_status, b.occupation_id, jt.job_type_name, b.occupation_place, b.reference_name, 
+         b.reference_address, b.contact_no, b.stay_type, b.remarks, b.employment_status, b.photo
+  FROM beneficiaries b
+  LEFT JOIN job_types jt ON b.occupation_id = jt.id
+`;
+// ...existing code...
         let params = [];
         let conditions = [];
 
@@ -143,7 +158,8 @@ exports.viewBeneficiaries = async (req, res) => {
                 health_status,
                 stay_type,
                 min_age,
-                max_age
+                max_age,
+                employment_status
             }
         });
 
@@ -179,9 +195,18 @@ exports.showEditList = async (req, res) => {
     const stay_type = req.query.stay_type || "";
     const min_age = req.query.min_age || "";
     const max_age = req.query.max_age || "";
+    const employment_status = req.query.employment_status || "";
     
     try {
-        let sql = "SELECT id, beneficiary_name, guardian_name, age, gender, education, marital_status, children_count, location, health_status, occupation_id, occupation_place, reference_name, reference_address, contact_no, stay_type, remarks FROM beneficiaries";
+// ...existing code...
+let sql = `
+  SELECT b.id, b.beneficiary_name, b.guardian_name, b.age, b.gender, b.education, b.marital_status, b.children_count,
+         b.location, b.health_status, b.occupation_id, jt.job_type_name, b.occupation_place, b.reference_name, 
+         b.reference_address, b.contact_no, b.stay_type, b.remarks, b.employment_status
+  FROM beneficiaries b
+  LEFT JOIN job_types jt ON b.occupation_id = jt.id
+`;
+// ...existing code...
         let params = [];
         let conditions = [];
 
@@ -240,7 +265,8 @@ exports.showEditList = async (req, res) => {
                 health_status,
                 stay_type,
                 min_age,
-                max_age
+                max_age,
+                employment_status
             }
         });
 
@@ -250,7 +276,7 @@ exports.showEditList = async (req, res) => {
     }
 };
 
-// Edit Beneficiary - Show Edit Form
+// --- Show Edit Form ---
 exports.showEditForm = async (req, res) => {
     const id = req.params.id;
     try {
@@ -273,7 +299,7 @@ exports.showEditForm = async (req, res) => {
     }
 };
 
-// Edit Beneficiary - Update
+// --- Update Beneficiary ---
 exports.updateBeneficiary = async (req, res) => {
     const id = req.params.id;
     const {
@@ -295,7 +321,8 @@ exports.updateBeneficiary = async (req, res) => {
         contact_no,
         reason_ulb,
         stay_type,
-        remarks
+        remarks,
+        employment_status // <-- ADD THIS
     } = req.body;
 
     const photo = req.file ? req.file.buffer : null;
@@ -305,13 +332,13 @@ exports.updateBeneficiary = async (req, res) => {
             beneficiary_name = ?, guardian_name = ?, age = ?, gender = ?, education = ?, 
             marital_status = ?, children_count = ?, id_mark = ?, location = ?, health_status = ?, 
             habits = ?, occupation_id = ?, occupation_place = ?, reference_name = ?, 
-            reference_address = ?, contact_no = ?, reason_ulb = ?, stay_type = ?, remarks = ?`;
+            reference_address = ?, contact_no = ?, reason_ulb = ?, stay_type = ?, remarks = ?, employment_status = ?`;
         
         const params = [
             beneficiary_name, guardian_name, age, gender, education, marital_status, 
             children_count, id_mark, location, health_status, habits, occupation_id, 
             occupation_place, reference_name, reference_address, contact_no, 
-            reason_ulb, stay_type, remarks
+            reason_ulb, stay_type, remarks, employment_status || 'Unemployed'
         ];
 
         // Only update photo if a new one is uploaded
@@ -332,6 +359,8 @@ exports.updateBeneficiary = async (req, res) => {
         res.send("Error updating beneficiary.");
     }
 };
+
+// ...existing code...
 
 // Delete Beneficiary
 exports.deleteBeneficiary = async (req, res) => {
