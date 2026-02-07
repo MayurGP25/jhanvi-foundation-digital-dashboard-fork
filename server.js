@@ -4,7 +4,7 @@ const session = require("express-session");
 
 const authRoutes = require("./routes/authRoutes");
 const beneficiaryRoutes = require("./routes/beneficiaryRoutes");
-const jobProviderRoutes = require("./routes/jobProviderRoutes");
+const jobProviderRoutes = require("./routes/jobproviderRoutes");
 const jobMatchingRoutes = require("./routes/jobMatchingRoutes");
 const { requireLogin } = require("./middleware/authMiddleware");
 
